@@ -16,6 +16,6 @@ public class User {
     @Setter
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(referencedColumnName = "uid")
-    private ArrayList<BookingObjects> MyBookings=new ArrayList<>();
+    private ArrayList<BookingObject> MyBookings=new ArrayList<>();
 
 }

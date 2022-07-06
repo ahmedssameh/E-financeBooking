@@ -7,7 +7,7 @@ import java.sql.Date;
 
 
 @Entity
-public class BookingObjects {
+public class BookingObject {
     @Id
     @GeneratedValue
     private int bid;
@@ -18,6 +18,13 @@ public class BookingObjects {
     private int Quantity;
 
 
+    public int getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
+    }
 
     public Date getPublishedDate() {
         return PublishedDate;
