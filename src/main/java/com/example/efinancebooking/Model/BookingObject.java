@@ -3,11 +3,12 @@ package com.example.efinancebooking.Model;
 import com.example.efinancebooking.enums.BookingEnum;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 
 
 @Entity
-public class BookingObject {
+public class BookingObject implements Serializable {
     @Id
     @GeneratedValue
     private int bid;
@@ -16,6 +17,10 @@ public class BookingObject {
     private String Description;
     private double Price;
     private int Quantity;
+
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "uid")
+    private  User Publisher;
 
 
     public int getQuantity() {

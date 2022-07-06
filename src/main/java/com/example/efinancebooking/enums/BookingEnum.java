@@ -1,7 +1,12 @@
 package com.example.efinancebooking.enums;
 
 public enum BookingEnum {
-    Hotels,
-    TravellingTicket,
-    Cars
+    Hotels("Hotels"),
+    TravellingTicket("TravellingTicket"),
+    Cars("Cars");
+    final String type;
+
+    BookingEnum(String type) {
+        this.type = type;
+    }
 }
