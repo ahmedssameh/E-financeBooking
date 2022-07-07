@@ -18,7 +18,7 @@ public class BookingObjectController {
     @Autowired
     BookingObjectsService BookingObjService;
     @PostMapping(path ="/Add" )
-    public @ResponseBody String addBookingObj(/*@Valid*/ @RequestBody BookingObject BookingObj){
+    public @ResponseBody String addBookingObj(/*@Valid*/  @RequestBody BookingObject BookingObj){
         BookingObjService.addNewBookObj(BookingObj);
         return "Creating Ad is done";
     }

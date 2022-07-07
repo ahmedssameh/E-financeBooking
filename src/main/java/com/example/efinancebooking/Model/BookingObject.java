@@ -22,6 +22,17 @@ public class BookingObject implements Serializable {
     @JoinColumn(referencedColumnName = "uid")
     private  User Publisher;
 
+    public BookingObject() {
+
+    }
+    public BookingObject(BookingEnum type, Date publishedDate, String description, double price, int quantity, User publisher) {
+        this.type = type;
+        PublishedDate = publishedDate;
+        Description = description;
+        Price = price;
+        Quantity = quantity;
+        Publisher = publisher;
+    }
 
     public int getQuantity() {
         return Quantity;

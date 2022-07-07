@@ -8,12 +8,14 @@ import com.example.efinancebooking.Repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Configuration
+@Service
 public class BookingObjectsService {
 
 
@@ -25,6 +27,7 @@ public class BookingObjectsService {
 
     @Transactional
     public void addNewBookObj(BookingObject Bobj){
+
         getMeBookData.save(Bobj);
     }
     @Transactional
