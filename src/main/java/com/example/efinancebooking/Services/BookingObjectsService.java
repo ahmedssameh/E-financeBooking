@@ -27,7 +27,6 @@ public class BookingObjectsService {
 
     @Transactional
     public void addNewBookObj(BookingObject Bobj){
-
         getMeBookData.save(Bobj);
     }
     @Transactional

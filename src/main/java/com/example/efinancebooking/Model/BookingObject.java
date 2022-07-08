@@ -3,6 +3,8 @@ package com.example.efinancebooking.Model;
 import com.example.efinancebooking.enums.BookingEnum;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -12,14 +14,18 @@ public class BookingObject implements Serializable {
     @Id
     @GeneratedValue
     private int bid;
+    @NotNull
     private BookingEnum type;
     private java.sql.Date PublishedDate;
+    @NotNull
+    @Size(min=50)
     private String Description;
+    @NotNull
     private double Price;
+    @NotNull
     private int Quantity;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "uid")
     private  User Publisher;
 
     public BookingObject() {
@@ -33,7 +39,13 @@ public class BookingObject implements Serializable {
         Quantity = quantity;
         Publisher = publisher;
     }
+    public User getPublisher() {
+        return Publisher;
+    }
 
+    public void setPublisher(User publisher) {
+        Publisher = publisher;
+    }
     public int getQuantity() {
         return Quantity;
     }

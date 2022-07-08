@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -18,7 +19,7 @@ public class BookingObjectController {
     @Autowired
     BookingObjectsService BookingObjService;
     @PostMapping(path ="/Add" )
-    public @ResponseBody String addBookingObj(/*@Valid*/  @RequestBody BookingObject BookingObj){
+    public @ResponseBody String addBookingObj(@Valid @RequestBody BookingObject BookingObj){
         BookingObjService.addNewBookObj(BookingObj);
         return "Creating Ad is done";
     }
