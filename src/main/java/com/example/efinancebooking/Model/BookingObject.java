@@ -13,7 +13,7 @@ import java.sql.Date;
 public class BookingObject implements Serializable {
     @Id
     @GeneratedValue
-    private int bid;
+    private int id;
     @NotNull
     private BookingEnum type;
     private java.sql.Date PublishedDate;
@@ -78,12 +78,12 @@ public class BookingObject implements Serializable {
         Price = price;
     }
 
-    public int getBid() {
-        return bid;
+    public int getId() {
+        return id;
     }
 
-    public void setBid(int bid) {
-        this.bid = bid;
+    public void setId(int bid) {
+        this.id = bid;
     }
 
     public BookingEnum getType() {

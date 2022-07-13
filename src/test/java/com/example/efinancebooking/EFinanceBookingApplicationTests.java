@@ -5,9 +5,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class EFinanceBookingApplicationTests {
+    public static void main(String[] args){
 
-    @Test
-    void contextLoads() {
+        System.out.println("Hello World");
+
     }
-
 }

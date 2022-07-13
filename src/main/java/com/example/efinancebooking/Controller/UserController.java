@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,13 +20,13 @@ public class UserController {
     UserServices userServices;
 
     @PostMapping(path="/add")
-    public @ResponseBody String Register(@Valid @RequestBody User user){
+    public @ResponseBody ResponseEntity<?> Register(@Valid @RequestBody User user){
         userServices.Register(user);
-        return "Registering is done";
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping(path = "/get")
-    public @ResponseBody List<User> getUsers(){
-        return userServices.getUsers();
+    public @ResponseBody ResponseEntity<List<User>> getUsers(){
+        return ResponseEntity.ok().body(userServices.getUsers());
     }
 }
