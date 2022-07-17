@@ -1,10 +1,14 @@
 package com.example.efinancebooking.Services;
 
 
+import com.example.efinancebooking.BookingObjectControllerClasess.EditBookingObjReq;
+import com.example.efinancebooking.BookingObjectControllerClasess.addBookingObjReq;
+import com.example.efinancebooking.BookingObjectControllerClasess.getAdsFilteredReq;
 import com.example.efinancebooking.Model.BookingObject;
 import com.example.efinancebooking.Model.User;
 import com.example.efinancebooking.Repos.BookingObjectRepo;
 import com.example.efinancebooking.Repos.UserRepo;
+import com.example.efinancebooking.enums.BookingEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
@@ -24,8 +28,15 @@ public class BookingObjectsService {
     UserRepo userRepo;
 
     @Transactional
-    public void addNewBookObj(BookingObject Bobj){
-        bookingObjectRepo.save(Bobj);
+    public void addNewBookObj(addBookingObjReq addBookingObjReq){
+        User u = userRepo.findUserByUid(addBookingObjReq.userid);
+        BookingObject b = new BookingObject(addBookingObjReq.type,
+                addBookingObjReq.PublishedDate,
+                addBookingObjReq.Description,
+                addBookingObjReq.Price,
+                addBookingObjReq.Quantity,
+                u);
+        bookingObjectRepo.save(b);
     }
     @Transactional
     public List<BookingObject> getAllBookingObj(){
@@ -33,8 +44,24 @@ public class BookingObjectsService {
         return bookingObjectRepo.findAll();
     }
     @Transactional
+    public List<BookingObject> getAdsFiltered(getAdsFilteredReq getAdsFilteredReq){
+         double minPrice = getAdsFilteredReq.minPrice;
+         double maxPrice = getAdsFilteredReq.maxPrice;
+         int minQuantity = getAdsFilteredReq.minQuantity;
+        if(getAdsFilteredReq.maxPrice==0){
+            getAdsFilteredReq.maxPrice=999999999;
+        }
+        if(getAdsFilteredReq.type!=null){
+             BookingEnum type = getAdsFilteredReq.type;
+            return bookingObjectRepo.findBookingObjectFilteredWithType(minPrice,maxPrice,minQuantity,type);
+         }
+        return bookingObjectRepo.findBookingObjectFiltered(minPrice,maxPrice,minQuantity);
+    }
+
+    @Transactional
     public void delete(int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
+        if(CancelConstraint(bid))
         bookingObjectRepo.delete(Bobj);
     }
     @Transactional
@@ -42,7 +69,7 @@ public class BookingObjectsService {
         return bookingObjectRepo.getMyAds(uid);
     }
     @Transactional
-    public String AssignBook(int bid,int uid){
+    public String AssignBook(int uid,int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
         User user= userRepo.findUserByUid(uid);
         int Quantity=Bobj.getQuantity();
@@ -55,7 +82,7 @@ public class BookingObjectsService {
         return "Booking is done";
     }
     @Transactional
-    public String cancel(int bid,int uid){
+    public String cancel(int uid,int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
         User user= userRepo.findUserByUid(uid);
         int Quantity=Bobj.getQuantity()+1;
@@ -69,5 +96,20 @@ public class BookingObjectsService {
     public boolean CancelConstraint(int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
         return Bobj.getPrice() > 100;
+    }
+
+    @Transactional
+    public boolean DeleteConstraint(int bid){
+        BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
+        return Bobj.getQuantity()==0;
+    }
+
+    @Transactional
+    public void EditBookingPost(EditBookingObjReq EditBookingObjReq){
+        BookingObject BObj= bookingObjectRepo.findBookingObjectByBid(EditBookingObjReq.id);
+        BObj.setQuantity(EditBookingObjReq.Quantity);
+        BObj.setPrice(EditBookingObjReq.Price);
+        BObj.setDescription(EditBookingObjReq.Description);
+        bookingObjectRepo.save(BObj);
     }
 }

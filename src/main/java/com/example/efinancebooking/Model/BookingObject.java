@@ -1,6 +1,7 @@
 package com.example.efinancebooking.Model;
 
 import com.example.efinancebooking.enums.BookingEnum;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,14 +19,16 @@ public class BookingObject implements Serializable {
     private BookingEnum type;
     private java.sql.Date PublishedDate;
     @NotNull
-    @Size(min=50)
+    @Size(min=10)
     private String Description;
     @NotNull
     private double Price;
     @NotNull
     private int Quantity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @Autowired
+    @NotNull
     private  User Publisher;
 
     public BookingObject() {

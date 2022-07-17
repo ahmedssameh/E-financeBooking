@@ -2,6 +2,7 @@ package com.example.efinancebooking.Model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -14,10 +15,14 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue
-    int uid;
+    int id;
     @NotNull
     @Size(min = 3,max = 25)
     private String Username;
+
+    @OneToMany(cascade = {CascadeType.ALL})
+    @Autowired
+    private List<BookingObject> MyBookings;
 
     public String getUsername() {
         return Username;
@@ -34,8 +39,5 @@ public class User {
     public void setMyBookings(List<BookingObject> myBookings) {
         MyBookings = myBookings;
     }
-
-    @OneToMany(cascade = {CascadeType.ALL})
-    private List<BookingObject> MyBookings=new ArrayList<>();
 
 }

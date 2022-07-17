@@ -1,11 +1,12 @@
 package com.example.efinancebooking.Controller;
 
+import com.example.efinancebooking.BookingObjectControllerClasess.EditBookingObjReq;
+import com.example.efinancebooking.BookingObjectControllerClasess.addBookingObjReq;
+import com.example.efinancebooking.BookingObjectControllerClasess.getAdsFilteredReq;
 import com.example.efinancebooking.Model.BookingObject;
 import com.example.efinancebooking.Services.BookingObjectsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,8 +21,8 @@ public class BookingObjectController {
     @Autowired
     BookingObjectsService BookingObjService;
     @PostMapping(path ="/Add" )
-    public @ResponseBody ResponseEntity<?> addBookingObj(@Valid @RequestBody BookingObject BookingObj){
-        BookingObjService.addNewBookObj(BookingObj);
+    public @ResponseBody ResponseEntity<?> addBookingObj(@Valid @RequestBody addBookingObjReq addBookingObjReq){
+        BookingObjService.addNewBookObj(addBookingObjReq);
         return ResponseEntity.ok().build();
     }
 
@@ -57,4 +58,12 @@ public class BookingObjectController {
         return ResponseEntity.ok().body( BookingObjService.getMyAds(uid));
     }
 
+    @PutMapping(path = "/edit")
+    public void EditBookingPost(@RequestBody EditBookingObjReq editBookingObjReq){
+        BookingObjService.EditBookingPost(editBookingObjReq);
+    }
+    @GetMapping(path = "/filter")
+    public ResponseEntity<List<BookingObject>> getAdsFiltered(@RequestBody getAdsFilteredReq getAdsFilteredReq){
+        return ResponseEntity.ok().body(BookingObjService.getAdsFiltered(getAdsFilteredReq));
+    }
 }
