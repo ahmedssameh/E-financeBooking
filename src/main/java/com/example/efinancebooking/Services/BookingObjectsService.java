@@ -135,6 +135,6 @@ public class BookingObjectsService {
     @Transactional
     public List<BookingObject> SearchByLocation(String FindMe){
         FindMe='%'+FindMe+'%';
-        return bookingObjectRepo.findBookingObjectFilteredByName(FindMe);
+        return bookingObjectRepo.findBookingObjectFilteredByLocation(FindMe);
     }
 }

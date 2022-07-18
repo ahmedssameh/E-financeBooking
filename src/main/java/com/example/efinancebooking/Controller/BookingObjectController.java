@@ -80,6 +80,6 @@ public class BookingObjectController {
 
     @GetMapping(path = "/SearchByLocation")
     public ResponseEntity<List<BookingObject>> getAdsFilteredByLocation(@RequestParam String FindMe){
-        return ResponseEntity.ok().body(BookingObjService.SearchByName(FindMe));
+        return ResponseEntity.ok().body(BookingObjService.SearchByLocation(FindMe));
     }
 }
