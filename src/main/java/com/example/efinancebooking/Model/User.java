@@ -1,9 +1,6 @@
 package com.example.efinancebooking.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -11,13 +8,14 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor @Data
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int uid;
 
     @NotNull
@@ -29,6 +27,9 @@ public class User {
     @Size(min = 8,max = 35)
     private String password;
 
+    @ManyToMany(fetch= FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
+
     public String getPassword() {
         return password;
     }
@@ -36,10 +37,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
-
-
 
     public String getUsername() {
         return Username;
