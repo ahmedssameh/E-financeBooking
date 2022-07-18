@@ -37,6 +37,35 @@ public class BookingObject implements Serializable {
     private  User Publisher;
 
     private String Location;
+
+    private double Rate=0;
+
+    private int NumberOfRates=0;
+
+    public int getNumberOfRates() {
+        return NumberOfRates;
+    }
+
+    public void setNumberOfRates(int numberOfRates) {
+        NumberOfRates = numberOfRates;
+    }
+
+    public double getRate() {
+        return Rate;
+    }
+
+    public void setRate(double rate) {
+        Rate = rate;
+    }
+
+    public String getLocation() {
+        return Location;
+    }
+
+    public void setLocation(String location) {
+        Location = location;
+    }
+
     public BookingObject() {
 
     }

@@ -30,4 +30,9 @@ public class UserController {
     public @ResponseBody ResponseEntity<List<User>> getUsers(){
         return ResponseEntity.ok().body(userServices.getUsers());
     }
+    @PutMapping(path = "/rate")
+    public void Rate(@RequestParam int bid,@RequestParam double Rate){
+        userServices.Rate(bid, Rate);
+    }
+
 }
