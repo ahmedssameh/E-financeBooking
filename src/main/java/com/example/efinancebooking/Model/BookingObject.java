@@ -16,6 +16,8 @@ public class BookingObject implements Serializable {
     @GeneratedValue
     private int id;
     @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
+    @Autowired
     private BookingEnum type;
     private java.sql.Date PublishedDate;
     @NotNull

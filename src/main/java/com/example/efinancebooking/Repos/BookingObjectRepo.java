@@ -21,7 +21,10 @@ BookingObject findBookingObjectByBid(int bid) ;
 @Query("select O from BookingObject O where O.Price>?1 and O.Price<?2 and O.Quantity>?3")
     List<BookingObject>findBookingObjectFiltered(double minPrice, double maxPrice, int minQuantity);
 
-@Query("select O from BookingObject O where O.Price>?1 and O.Price<?2 and O.Quantity>?3 and O.type= ?4")
-List<BookingObject>findBookingObjectFilteredWithType(double minPrice, double maxPrice, int minQuantity,BookingEnum type);
+@Query("select O from BookingEnum O where O.type=?1 ")
+BookingEnum findBookingTypeByBid(String type) ;
+
+@Query("select O from BookingObject O where O.Price>?1 and O.Price<?2 and O.Quantity>?3 and O.type.type= ?4")
+List<BookingObject>findBookingObjectFilteredWithType(double minPrice, double maxPrice, int minQuantity,String type);
 }
 

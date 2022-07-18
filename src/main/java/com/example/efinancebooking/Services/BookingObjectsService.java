@@ -30,7 +30,8 @@ public class BookingObjectsService {
     @Transactional
     public void addNewBookObj(addBookingObjReq addBookingObjReq){
         User u = userRepo.findUserByUid(addBookingObjReq.userid);
-        BookingObject b = new BookingObject(addBookingObjReq.type,
+        BookingEnum bookingEnum=bookingObjectRepo.findBookingTypeByBid(addBookingObjReq.type);
+        BookingObject b = new BookingObject(bookingEnum,
                 addBookingObjReq.PublishedDate,
                 addBookingObjReq.Description,
                 addBookingObjReq.Price,
@@ -52,7 +53,7 @@ public class BookingObjectsService {
             getAdsFilteredReq.maxPrice=999999999;
         }
         if(getAdsFilteredReq.type!=null){
-             BookingEnum type = getAdsFilteredReq.type;
+            String type = getAdsFilteredReq.type;
             return bookingObjectRepo.findBookingObjectFilteredWithType(minPrice,maxPrice,minQuantity,type);
          }
         return bookingObjectRepo.findBookingObjectFiltered(minPrice,maxPrice,minQuantity);
@@ -61,7 +62,7 @@ public class BookingObjectsService {
     @Transactional
     public void delete(int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
-        if(CancelConstraint(bid))
+        if(DeleteConstraint(bid))
         bookingObjectRepo.delete(Bobj);
     }
     @Transactional

@@ -6,5 +6,5 @@ public class getAdsFilteredReq {
     public double minPrice;
     public double maxPrice;
     public int minQuantity;
-    public BookingEnum type;
+    public String type;
 }

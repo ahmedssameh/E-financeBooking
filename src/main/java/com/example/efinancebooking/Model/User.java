@@ -24,6 +24,7 @@ public class User {
     @Autowired
     private List<BookingObject> MyBookings;
 
+
     public String getUsername() {
         return Username;
     }

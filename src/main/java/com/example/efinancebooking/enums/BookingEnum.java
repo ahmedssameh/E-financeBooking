@@ -1,12 +1,31 @@
 package com.example.efinancebooking.enums;
 
-public enum BookingEnum {
-    Hotels("Hotels"),
-    TravellingTicket("TravellingTicket"),
-    Cars("Cars");
-    final String type;
+import javax.persistence.*;
 
-    BookingEnum(String type) {
+@Entity
+public class BookingEnum {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    private String type;
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
         this.type = type;
+    }
+
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
