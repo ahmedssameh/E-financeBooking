@@ -16,7 +16,7 @@ public class BookingObject implements Serializable {
     @GeneratedValue
     private int id;
     @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @Autowired
     private BookingEnum type;
     private java.sql.Date PublishedDate;
@@ -28,15 +28,21 @@ public class BookingObject implements Serializable {
     @NotNull
     private int Quantity;
 
+    @NotNull
+    private String Name;
+
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @Autowired
     @NotNull
     private  User Publisher;
 
+    private String Location;
     public BookingObject() {
 
     }
-    public BookingObject(BookingEnum type, Date publishedDate, String description, double price, int quantity, User publisher) {
+    public BookingObject(String Location,String name,BookingEnum type, Date publishedDate, String description, double price, int quantity, User publisher) {
+        this.Location=Location;
+        Name=name;
         this.type = type;
         PublishedDate = publishedDate;
         Description = description;
@@ -44,6 +50,15 @@ public class BookingObject implements Serializable {
         Quantity = quantity;
         Publisher = publisher;
     }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
     public User getPublisher() {
         return Publisher;
     }

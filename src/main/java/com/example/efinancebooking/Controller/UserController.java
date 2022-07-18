@@ -2,6 +2,7 @@ package com.example.efinancebooking.Controller;
 
 import com.example.efinancebooking.Model.User;
 import com.example.efinancebooking.Services.UserServices;
+import com.example.efinancebooking.UserRequests.AddUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ public class UserController {
     UserServices userServices;
 
     @PostMapping(path="/add")
-    public @ResponseBody ResponseEntity<?> Register(@Valid @RequestBody User user){
+    public @ResponseBody ResponseEntity<?> Register(@Valid @RequestBody AddUserRequest user){
         userServices.Register(user);
         return ResponseEntity.ok().build();
     }

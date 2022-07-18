@@ -30,8 +30,10 @@ public class BookingObjectsService {
     @Transactional
     public void addNewBookObj(addBookingObjReq addBookingObjReq){
         User u = userRepo.findUserByUid(addBookingObjReq.userid);
-        BookingEnum bookingEnum=bookingObjectRepo.findBookingTypeByBid(addBookingObjReq.type);
-        BookingObject b = new BookingObject(bookingEnum,
+        BookingEnum bookingEnum=bookingObjectRepo.findBookingTypeByName(addBookingObjReq.type);
+        BookingObject b = new BookingObject(addBookingObjReq.Location,
+                addBookingObjReq.Name,
+                bookingEnum,
                 addBookingObjReq.PublishedDate,
                 addBookingObjReq.Description,
                 addBookingObjReq.Price,
@@ -69,6 +71,14 @@ public class BookingObjectsService {
     public List<BookingObject> getMyAds(int uid){
         return bookingObjectRepo.getMyAds(uid);
     }
+
+    @Transactional
+    public List<BookingObject> getMyBooked(int uid){
+
+        User user=userRepo.findUserByUid(uid);
+        return user.getMyBookings();
+    }
+
     @Transactional
     public String AssignBook(int uid,int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
@@ -82,6 +92,7 @@ public class BookingObjectsService {
         bookingObjectRepo.save(Bobj);
         return "Booking is done";
     }
+
     @Transactional
     public String cancel(int uid,int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
@@ -93,6 +104,7 @@ public class BookingObjectsService {
         bookingObjectRepo.save(Bobj);
         return "Booking is Cancelled";
     }
+
     @Transactional
     public boolean CancelConstraint(int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
@@ -112,5 +124,17 @@ public class BookingObjectsService {
         BObj.setPrice(EditBookingObjReq.Price);
         BObj.setDescription(EditBookingObjReq.Description);
         bookingObjectRepo.save(BObj);
+    }
+
+    @Transactional
+    public List<BookingObject> SearchByName(String FindMe){
+        FindMe='%'+FindMe+'%';
+        return bookingObjectRepo.findBookingObjectFilteredByName(FindMe);
+    }
+
+    @Transactional
+    public List<BookingObject> SearchByLocation(String FindMe){
+        FindMe='%'+FindMe+'%';
+        return bookingObjectRepo.findBookingObjectFilteredByName(FindMe);
     }
 }

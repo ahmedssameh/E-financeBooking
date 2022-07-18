@@ -31,6 +31,17 @@ public class BookingObjectController {
         return ResponseEntity.ok().body(BookingObjService.getAllBookingObj());
     }
 
+    @GetMapping(path= "/GetMyBookings")
+    public @ResponseBody ResponseEntity<List<BookingObject>> getMyBookings(@RequestParam int uid){
+        return ResponseEntity.ok().body(BookingObjService.getMyBooked(uid));
+    }
+
+    @GetMapping(path="/GetMyPublishedAds")
+    public ResponseEntity<List<BookingObject>> getMyAds(@RequestParam int uid){
+        return ResponseEntity.ok().body( BookingObjService.getMyAds(uid));
+    }
+
+
     @DeleteMapping(path="/delete")
     public @ResponseBody ResponseEntity<?> delete(@RequestParam int bid){
         BookingObjService.delete(bid);
@@ -53,11 +64,6 @@ public class BookingObjectController {
         }
     }
 
-    @GetMapping(path="/GetMyPublishedAds")
-    public ResponseEntity<List<BookingObject>> getMyAds(@RequestParam int uid){
-        return ResponseEntity.ok().body( BookingObjService.getMyAds(uid));
-    }
-
     @PutMapping(path = "/edit")
     public void EditBookingPost(@RequestBody EditBookingObjReq editBookingObjReq){
         BookingObjService.EditBookingPost(editBookingObjReq);
@@ -65,5 +71,15 @@ public class BookingObjectController {
     @GetMapping(path = "/filter")
     public ResponseEntity<List<BookingObject>> getAdsFiltered(@RequestBody getAdsFilteredReq getAdsFilteredReq){
         return ResponseEntity.ok().body(BookingObjService.getAdsFiltered(getAdsFilteredReq));
+    }
+
+    @GetMapping(path = "/SearchByName")
+    public ResponseEntity<List<BookingObject>> getAdsFilteredByName(@RequestParam String FindMe){
+        return ResponseEntity.ok().body(BookingObjService.SearchByName(FindMe));
+    }
+
+    @GetMapping(path = "/SearchByLocation")
+    public ResponseEntity<List<BookingObject>> getAdsFilteredByLocation(@RequestParam String FindMe){
+        return ResponseEntity.ok().body(BookingObjService.SearchByName(FindMe));
     }
 }

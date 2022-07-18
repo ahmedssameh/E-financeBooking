@@ -2,6 +2,7 @@ package com.example.efinancebooking.Services;
 
 import com.example.efinancebooking.Model.User;
 import com.example.efinancebooking.Repos.UserRepo;
+import com.example.efinancebooking.UserRequests.AddUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,9 @@ public class UserServices {
     UserRepo userRepo;
 
     @Transactional
-    public String Register(User user){
+    public String Register(AddUserRequest AddedUser){
+        User user= new User(AddedUser.UserName,AddedUser.Password, AddedUser.Seller,
+                AddedUser.Email,AddedUser.PhoneNumber);
         userRepo.save(user);
         return "Registration is done";
     }

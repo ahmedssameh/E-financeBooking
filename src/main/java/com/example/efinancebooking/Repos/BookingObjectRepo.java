@@ -18,13 +18,21 @@ BookingObject findBookingObjectByBid(int bid) ;
 
 @Query("select O from BookingObject O where O.Publisher.id=?1")
     ArrayList<BookingObject> getMyAds(int uid);
+
 @Query("select O from BookingObject O where O.Price>?1 and O.Price<?2 and O.Quantity>?3")
     List<BookingObject>findBookingObjectFiltered(double minPrice, double maxPrice, int minQuantity);
 
 @Query("select O from BookingEnum O where O.type=?1 ")
-BookingEnum findBookingTypeByBid(String type) ;
+BookingEnum findBookingTypeByName(String type) ;
 
 @Query("select O from BookingObject O where O.Price>?1 and O.Price<?2 and O.Quantity>?3 and O.type.type= ?4")
 List<BookingObject>findBookingObjectFilteredWithType(double minPrice, double maxPrice, int minQuantity,String type);
+
+@Query("select O from BookingObject O where O.Name like ?1")
+List<BookingObject>findBookingObjectFilteredByName(String FindMe);
+
+
+@Query("select O from BookingObject O where O.Location like ?1")
+List<BookingObject>findBookingObjectFilteredByLocation(String FindMe);
 }
 
