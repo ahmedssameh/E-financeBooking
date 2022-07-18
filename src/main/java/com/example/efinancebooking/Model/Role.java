@@ -1,8 +1,6 @@
 package com.example.efinancebooking.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +10,7 @@ import javax.persistence.Id;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter @Getter
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -18,9 +18,13 @@ public class EFinanceBookingApplication {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+
+
+
 //    @Bean
 //    CommandLineRunner run (UserServices userServices){
 //        return args -> {
