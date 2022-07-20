@@ -18,7 +18,7 @@ public class EFinanceBookingApplication {
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 

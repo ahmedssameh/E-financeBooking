@@ -24,7 +24,7 @@ public class User {
     private String Username;
 
     @NotNull
-    private String password;
+    private String password;  //TODO: minimum 8 characters
 
     @ManyToMany(fetch= FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
