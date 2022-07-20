@@ -5,25 +5,36 @@ import com.example.efinancebooking.BookingObjectControllerClasess.addBookingObjR
 import com.example.efinancebooking.BookingObjectControllerClasess.getAdsFilteredReq;
 import com.example.efinancebooking.Model.BookingObject;
 import com.example.efinancebooking.Services.BookingObjectsService;
+import lombok.Data;
+import org.ocpsoft.rewrite.annotation.Join;
+import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-
+@Data
 @RestController
 @RequestMapping(path="/Booking")
-
+@Component(value = "BookingObjectController")
+@ELBeanName(value = "BookingObjectController")
+@Join(path = "/Booking", to = "/product-form.jsf")
 public class BookingObjectController {
 
     @Autowired
     BookingObjectsService BookingObjService;
+
+    public addBookingObjReq addBookingObjReq = new addBookingObjReq();
+
+
     @PostMapping(path ="/Add" )
-    public @ResponseBody ResponseEntity<?> addBookingObj(@Valid @RequestBody addBookingObjReq addBookingObjReq){
+    public @ResponseBody String addBookingObj(){
         BookingObjService.addNewBookObj(addBookingObjReq);
-        return ResponseEntity.ok().build();
+        addBookingObjReq=new addBookingObjReq();
+        return "/product-list.xhtml?faces-redirect=true";
     }
 
     @GetMapping(path= "/Get")

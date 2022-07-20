@@ -1,6 +1,7 @@
 package com.example.efinancebooking.Model;
 
 import com.example.efinancebooking.enums.BookingEnum;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.sql.Date;
 
 
 @Entity
+@Data
 public class BookingObject implements Serializable {
     @Id
     @GeneratedValue

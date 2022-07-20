@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping(path="/User")
 public class UserController {
 
@@ -35,4 +35,8 @@ public class UserController {
         userServices.Rate(bid, Rate);
     }
 
+    @RequestMapping(path = "/hello")
+    public String hello(){
+        return "pf_.xhtml";
+    }
 }
