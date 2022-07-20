@@ -24,7 +24,6 @@ public class User {
     private String Username;
 
     @NotNull
-    @Size(min = 8,max = 35)
     private String password;
 
     @ManyToMany(fetch= FetchType.EAGER)

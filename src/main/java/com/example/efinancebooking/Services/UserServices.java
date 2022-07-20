@@ -29,11 +29,12 @@ public class UserServices implements UserDetailsService {
     RoleRepo roleRepo;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+   private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public String Register(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         userRepo.save(user);
         return "Registration is done"; //TODO: return URI with 201 status code
     }
