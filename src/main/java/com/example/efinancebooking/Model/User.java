@@ -1,5 +1,7 @@
 package com.example.efinancebooking.Model;
 
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +13,28 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
+@AllArgsConstructor @NoArgsConstructor @Data
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
+
     @NotNull
     @Size(min = 3,max = 25)
+    @Column(unique=true)
     private String Username;
+
+    @NotNull
+    private String password;  //TODO: minimum 8 characters
+
+    @ManyToMany(fetch= FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
+
+
 
     @OneToMany(cascade = {CascadeType.ALL})
     @Autowired

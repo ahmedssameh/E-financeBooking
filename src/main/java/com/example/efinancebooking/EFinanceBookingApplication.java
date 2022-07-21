@@ -1,12 +1,19 @@
 package com.example.efinancebooking;
 
 import org.ocpsoft.rewrite.servlet.RewriteFilter;
+import com.example.efinancebooking.Model.User;
+import com.example.efinancebooking.Services.UserServices;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.DispatcherType;
@@ -32,5 +39,20 @@ public class EFinanceBookingApplication {
         rwFilter.addUrlPatterns("/*");
         return rwFilter;
     }
+
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+
+
+
+//    @Bean
+//    CommandLineRunner run (UserServices userServices){
+//        return args -> {
+//          userServices.Register(new User(6, "Hassan", "1234", null));
+//        };
+//    }
 
 }
