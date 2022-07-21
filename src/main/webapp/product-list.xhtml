@@ -10,18 +10,18 @@
     <ui:define name="content">
         <h:form id="form">
             <p:panel header="Products List">
-                <p:dataTable id="table" var="product" value="#{productList.products}" sortMode="multiple">
-                    <p:column sortBy="product.id" filterBy="product.id">
+                <p:dataTable id="table" var="product" value="#{productList.products}" sortOrder="descending" sortMode="multiple">
+                    <p:column sortBy="#{product.id}">
                         <f:facet name="header"># Id</f:facet>
                         <h:outputText value="#{product.id}" />
                     </p:column>
 
-                    <p:column sortBy="product.name" filterBy="product.name">
+                    <p:column sortBy="#{product.name}" >
                         <f:facet name="header">Name</f:facet>
                         <h:outputText value="#{product.name}" />
                     </p:column>
 
-                    <p:column sortBy="product.price" filterBy="product.price">
+                    <p:column sortBy="#{product.price}" >
                         <f:facet name="header">Price</f:facet>
                         <h:outputText value="#{product.price}">
                             <f:convertNumber type="currency" currencySymbol="$ " />
