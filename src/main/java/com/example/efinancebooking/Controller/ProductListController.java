@@ -33,4 +33,5 @@ public class ProductListController {
     public List<BookingObject> getProducts() {
         return products;
     }
+
 }

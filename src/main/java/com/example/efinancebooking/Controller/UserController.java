@@ -1,5 +1,6 @@
 package com.example.efinancebooking.Controller;
 
+import com.example.efinancebooking.BookingObjectControllerClasess.ReviewRequest;
 import com.example.efinancebooking.Model.User;
 import com.example.efinancebooking.Services.UserServices;
 import com.example.efinancebooking.UserRequests.AddUserRequest;
@@ -31,7 +32,7 @@ public class UserController {
         return ResponseEntity.ok().body(userServices.getUsers());
     }
     @PutMapping(path = "/rate")
-    public void Rate(@RequestParam int bid,@RequestParam double Rate){
+    public void Rate(@RequestParam int bid,@RequestBody ReviewRequest Rate){
         userServices.Rate(bid, Rate);
     }
 

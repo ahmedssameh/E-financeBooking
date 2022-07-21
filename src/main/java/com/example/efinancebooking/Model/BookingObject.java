@@ -19,6 +19,7 @@ public class BookingObject implements Serializable {
     private int id;
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
+
     @Autowired
     private BookingEnum type;
     private java.sql.Date PublishedDate;
@@ -40,23 +41,17 @@ public class BookingObject implements Serializable {
 
     private String Location;
 
-    private double Rate=0;
 
-    private int NumberOfRates=0;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @Autowired
+    private Review Rate;
 
-    public int getNumberOfRates() {
-        return NumberOfRates;
-    }
 
-    public void setNumberOfRates(int numberOfRates) {
-        NumberOfRates = numberOfRates;
-    }
-
-    public double getRate() {
+    public Review getRate() {
         return Rate;
     }
 
-    public void setRate(double rate) {
+    public void setRate(Review rate) {
         Rate = rate;
     }
 
