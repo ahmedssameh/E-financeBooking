@@ -25,8 +25,7 @@ import java.util.List;
 public class UserServices implements UserDetailsService {
     @Autowired
     UserRepo userRepo;
-    @Autowired
-    RoleRepo roleRepo;
+
 
     @Autowired
    private final PasswordEncoder passwordEncoder;
@@ -40,21 +39,6 @@ public class UserServices implements UserDetailsService {
     }
     public List<User> getUsers(){
         return userRepo.findAll();
-    }
-
-    @Transactional
-    public String AddRole(Role role){
-        roleRepo.save(role);
-        return "Role added successfully";
-    }
-
-    @Transactional
-    public String AddRoleToUser(String userName, String roleName){
-        User user = userRepo.findUserByName(userName);
-        Role role = roleRepo.findByName(roleName);
-        user.getRoles().add(role);
-
-        return "Role "+ roleName + " added to "+ userName;
     }
 
     @Override @Transactional
