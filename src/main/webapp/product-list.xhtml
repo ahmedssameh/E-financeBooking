@@ -9,8 +9,10 @@
 <ui:composition template="layout.xhtml">
     <ui:define name="content">
         <h:form id="form">
-            <p:panel header="Products List">
-                <p:dataTable id="table" var="product" value="#{productList.products}" sortOrder="descending" sortMode="multiple">
+                <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+                <div class="card">
+                <p:dataTable id="singleDT" var="product" value="#{productList.products}" selectionMode="single"
+                            selection="#{productList.selectedProduct}" rowKey="#{productList.selectedProduct.id}" sortOrder="descending" sortMode="multiple">
                     <p:column sortBy="#{product.id}">
                         <f:facet name="header"># Id</f:facet>
                         <h:outputText value="#{product.id}" />
@@ -27,8 +29,23 @@
                             <f:convertNumber type="currency" currencySymbol="$ " />
                         </h:outputText>
                     </p:column>
+
+                    <p:column sortBy="#{product.type.id}" >
+                        <f:facet name="header">type</f:facet>
+                        <h:outputText value="#{product.type.type}" />
+                    </p:column>
+
+                    <p:column sortBy="#{product.rate.rate}" >
+                        <f:facet name="header">Rate</f:facet>
+                        <h:outputText value="#{product.rate.rate}" />
+                    </p:column>
+                    <p:column style="width:3rem;text-align: center">
+                        <p:commandButton icon="pi pi-search" title="View">
+
+                        </p:commandButton>
+                    </p:column>
                 </p:dataTable>
-            </p:panel>
+                </div>
         </h:form>
     </ui:define>
 </ui:composition>

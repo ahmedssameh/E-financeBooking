@@ -30,7 +30,7 @@ public class UserServices {
 
     @Transactional
     public String Register(AddUserRequest AddedUser){
-        User user= new User(AddedUser.UserName,AddedUser.Password, AddedUser.Seller,
+        User user= new User(AddedUser.UserName,AddedUser.Password,
                 AddedUser.Email,AddedUser.PhoneNumber);
         userRepo.save(user);
         return "Registration is done";

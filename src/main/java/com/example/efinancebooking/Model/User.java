@@ -3,6 +3,7 @@ package com.example.efinancebooking.Model;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -29,8 +30,6 @@ public class User {
     @Size(min =8)
     private String Password;
 
-    @NotNull
-    private boolean Seller;
 
     @NotNull
     @Email
@@ -40,10 +39,9 @@ public class User {
     private double PhoneNumber;
 
 
-    public User(String username, String password, boolean seller, String email, double phoneNumber) {
+    public User(String username, String password, String email, double phoneNumber) {
         Username = username;
         Password = password;
-        Seller = seller;
         Email = email;
         PhoneNumber = phoneNumber;
     }
@@ -60,13 +58,13 @@ public class User {
         Password = password;
     }
 
-    public boolean isSeller() {
-        return Seller;
-    }
-
-    public void setSeller(boolean seller) {
-        Seller = seller;
-    }
+//    public boolean isSeller() {
+//        return Seller;
+//    }
+//
+//    public void setSeller(boolean seller) {
+//        Seller = seller;
+//    }
 
     public String getEmail() {
         return Email;
