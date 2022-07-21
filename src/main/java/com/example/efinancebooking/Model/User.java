@@ -28,8 +28,6 @@ public class User {
     @Column(unique=true)
     private String Username;
 
-    @NotNull
-    private String password;  //TODO: minimum 8 characters
 
     @ManyToMany(fetch= FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
@@ -60,9 +58,7 @@ public class User {
         PhoneNumber = phoneNumber;
     }
 
-    public User() {
 
-    }
 
     public String getPassword() {
         return Password;
