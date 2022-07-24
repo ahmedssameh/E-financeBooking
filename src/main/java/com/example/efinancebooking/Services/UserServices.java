@@ -42,10 +42,11 @@ public class UserServices implements UserDetailsService {
     @Autowired
     ReviewRepo reviewRepo;
 
+
     @Transactional
-    public String Register(User user){
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
+    public String Register(AddUserRequest AddedUser){
+        String encodedPassword = passwordEncoder.encode(AddedUser.getPassword());
+        User user= new User(AddedUser.getUsername(),encodedPassword, AddedUser.getEmail(),AddedUser.getPhoneNumber());
         userRepo.save(user);//TODO: add email to the Registration
         return "Registration is done"; //TODO: return URI with 201 status code
     }

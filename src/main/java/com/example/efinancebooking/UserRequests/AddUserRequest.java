@@ -1,10 +1,12 @@
 package com.example.efinancebooking.UserRequests;
 
+import lombok.Data;
+
+@Data
 public class AddUserRequest {
-    public String UserName;
-    public String Password;
-    public String Email;
-    public double PhoneNumber;
-    public boolean Seller;
+    private String Username;
+    private String Password;
+    private String Email;
+    private double PhoneNumber;
 
 }
