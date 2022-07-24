@@ -32,8 +32,9 @@ public class UserController {
         return ResponseEntity.ok().body(userServices.getUsers());
     }
     @PutMapping(path = "/rate")
-    public void Rate(@RequestParam int bid,@RequestBody ReviewRequest Rate){
-        userServices.Rate(bid, Rate);
+    public @ResponseBody ResponseEntity<?> Rate(@RequestParam int uid,@RequestBody ReviewRequest Rate){
+        userServices.Rate(uid, Rate);
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(path = "/hello")

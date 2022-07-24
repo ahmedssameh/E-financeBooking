@@ -11,8 +11,7 @@
         <h:form id="form">
                 <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
                 <div class="card">
-                <p:dataTable id="singleDT" var="product" value="#{productList.products}" selectionMode="single"
-                            selection="#{productList.selectedProduct}" rowKey="#{productList.selectedProduct.id}" sortOrder="descending" sortMode="multiple">
+                <p:dataTable id="singleDT" var="product" value="#{productList.products}" sortOrder="descending" sortMode="multiple">
                     <p:column sortBy="#{product.id}">
                         <f:facet name="header"># Id</f:facet>
                         <h:outputText value="#{product.id}" />
@@ -35,17 +34,58 @@
                         <h:outputText value="#{product.type.type}" />
                     </p:column>
 
-                    <p:column sortBy="#{product.rate.rate}" >
+                    <p:column sortBy="#{product.avgRate}" >
                         <f:facet name="header">Rate</f:facet>
-                        <h:outputText value="#{product.rate.rate}" />
+                        <h:outputText value="#{product.avgRate}" />
                     </p:column>
                     <p:column style="width:3rem;text-align: center">
-                        <p:commandButton icon="pi pi-search" title="View">
-
+                        <p:commandButton update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                         icon="pi pi-search" title="View">
+                            <f:setPropertyActionListener value="#{product}"
+                                                         target="#{productList.selectedProduct}"/>
                         </p:commandButton>
                     </p:column>
+
                 </p:dataTable>
                 </div>
+            <p:dialog header="Product Info" widgetVar="productDialog" modal="true" showEffect="fade"
+                      hideEffect="fade" resizable="false">
+                <p:outputPanel id="productDetail" style="text-align:center;">
+                    <p:column rendered="#{not empty productList.selectedProduct}">
+                        <div class="product">
+                            <div class="product-grid-item card" style="margin-bottom: 0">
+                                <div class="product-grid-item-top">
+                                    <div>
+                                        <i class="pi pi-tag product-category-icon"/>
+                                        <span class="product-category">#{productList.selectedProduct.type.type}</span>
+                                    </div>
+                                </div>
+                                <div class="product-grid-item-content">
+                                    <div class="product-name">#{productList.selectedProduct.name}</div>
+                                    <div class="product-description">#{productList.selectedProduct.description}</div>
+
+                                    <p:rating readonly="true" value="#{productList.selectedProduct.intRate}"/>
+                                </div>
+                                <div class="product-grid-item-bottom">
+                                    <h:outputText value="#{productList.selectedProduct.price}"
+                                                  styleClass="product-price">
+                                        <f:convertNumber currencySymbol="$" type="currency"/>
+                                    </h:outputText>
+                                </div>
+                                <div>
+                                    <p:commandButton   value="Cancel" actionListener="#{BookingObjectController.cancel(1,productList.selectedProduct.id)}"/>
+                                </div>
+                                <div>
+                                    <p:commandButton value="Book" actionListener="#{BookingObjectController.assign(1,productList.selectedProduct.id)}"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </p:column>
+                </p:outputPanel>
+            </p:dialog>
+
+
         </h:form>
     </ui:define>
 </ui:composition>

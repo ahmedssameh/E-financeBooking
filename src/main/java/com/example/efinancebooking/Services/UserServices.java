@@ -4,6 +4,7 @@ import com.example.efinancebooking.BookingObjectControllerClasess.ReviewRequest;
 import com.example.efinancebooking.Model.BookingObject;
 import com.example.efinancebooking.Model.Review;
 import com.example.efinancebooking.Model.User;
+import com.example.efinancebooking.Model.reviewId;
 import com.example.efinancebooking.Repos.BookingObjectRepo;
 import com.example.efinancebooking.Repos.ReviewRepo;
 import com.example.efinancebooking.Repos.UserRepo;
@@ -40,18 +41,31 @@ public class UserServices {
     }
 
     @Transactional
-    public void Rate(int bid, ReviewRequest Rate){
+    public void Rate(int uid, ReviewRequest Rate){
+        User user = userRepo.findUserByUid(uid);
+        BookingObject bookingObject = bookingObjectRepo.findBookingObjectByBid(Rate.bookingObjId);
+
         Review rate=new Review();
         rate.setRate(Rate.Rate);
         rate.setComment(Rate.Comment);
-        BookingObject Rated=bookingObjectRepo.findBookingObjectByBid(bid);
-        rate.setNumberOfRates(Rated.getRate().getNumberOfRates());
+
+        reviewId reviewId = new reviewId(user,bookingObject);
+        rate.setId(reviewId);
+
+        BookingObject Rated = bookingObjectRepo.findBookingObjectByBid(Rate.bookingObjId);
+
+        Rated.setAvgRate((Rate.Rate+(Rated.getAvgRate() * Rated.getNumberOfRates()))/ (Rated.getNumberOfRates()+1));
+
+        Rated.setNumberOfRates(Rated.getNumberOfRates()+1);
+
         reviewRepo.save(rate);
-        Rated.getRate().setRate(Rate.Rate);
-        Rated.getRate().setComment(Rate.Comment);
+
+        bookingObjectRepo.save(Rated);
+
+//        Rated.setNumberOfRates(Rated.getNumberOfRates()+1);
+//        Rated.getRate().setRate(Rate.Rate);
+//        Rated.getRate().setComment(Rate.Comment);
         //my rate=5 new Rate=5 number=100
-        Rated.getRate().setRate((Rate.Rate+(Rated.getRate().getRate()*Rated.getRate().getNumberOfRates()))/Rated.getRate().getNumberOfRates()+1);
-        Rated.getRate().setNumberOfRates(Rated.getRate().getNumberOfRates()+1);
     }
 
 }

@@ -83,6 +83,7 @@ public class BookingObjectsService {
     public String AssignBook(int uid,int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
         User user= userRepo.findUserByUid(uid);
+        if(!user.getMyBookings().contains(Bobj)){
         int Quantity=Bobj.getQuantity();
         if(Quantity>0) {
             Bobj.setQuantity(Quantity-1);
@@ -91,6 +92,8 @@ public class BookingObjectsService {
         userRepo.save(user);
         bookingObjectRepo.save(Bobj);
         return "Booking is done";
+        }else
+            return "You have already book this";
     }
 
     @Transactional
