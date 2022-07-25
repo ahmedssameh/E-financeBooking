@@ -10,6 +10,8 @@ import com.example.efinancebooking.JwtService.JwtUserDetailsServices;
 import com.example.efinancebooking.Model.JwtRequest;
 import com.example.efinancebooking.Model.JwtResponse;
 import com.example.efinancebooking.config.JwtTokenUtil;
+import lombok.Data;
+import org.ocpsoft.rewrite.annotation.Join;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +20,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +31,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @CrossOrigin
+@Component(value = "JwtAuthenticationController")
+@Join(path = "/login", to = "/login.jsf")
+@Data
 public class JwtAuthenticationController {
 
     @Autowired
@@ -38,8 +45,19 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsServices userDetailsService;
 
+    @Autowired
+    private JwtRequest authenticationRequest;
+
+    @Autowired
+    private HttpServletResponse jwtResponse;
+
+    @PostConstruct
+    public void init() {
+        this.authenticationRequest = new JwtRequest();
+
+    }
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest, HttpServletResponse response) throws Exception {
+    public String createAuthenticationToken(HttpServletResponse response) throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -47,6 +65,7 @@ public class JwtAuthenticationController {
                 .loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
+//        final String token_Bearer = "Bearer"+ token;
         JwtResponse jwtResponse= new JwtResponse(token);
         // create a cookie
         Cookie cookie = new Cookie("access_token", token);
@@ -55,8 +74,9 @@ public class JwtAuthenticationController {
         response.setHeader("Access-Control-Allow-Credentials", "true"); //TODO: check if should be set to true or not (production)
         //add cookie to response
         response.addCookie(cookie);
-
-        return ResponseEntity.ok(jwtResponse);
+        response.addHeader("Authorization", "Bearer "+ token);
+        authenticationRequest=new JwtRequest();
+        return "/product-form.xhtml?faces-redirect=true";
     }
 
     private void authenticate(String username, String password) throws Exception {

@@ -1,7 +1,13 @@
 package com.example.efinancebooking.Model;
 
+import org.springframework.stereotype.Component;
+
+import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
 
+
+@SessionScoped
+@Component(value = "JwtRequest")
 public class JwtRequest implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
@@ -14,6 +20,7 @@ public class JwtRequest implements Serializable {
     {
 
     }
+
 
     public JwtRequest(String username, String password) {
         this.setUsername(username);

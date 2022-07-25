@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,12 +34,31 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        final String requestTokenHeader = request.getHeader("Authorization");
+//        final String requestTokenHeader = request.getHeader("Authorization");
+        String value = null;
+
+//  enhanced way to get the cookies handles when cookies are null;
+//        String rawCookie = request.getHeader("Cookie");
+//        String[] rawCookieParams = rawCookie.split(";");
+//        for(String rawCookieNameAndValue :rawCookieParams)
+//        {
+//            String[] rawCookieNameAndValuePair = rawCookieNameAndValue.split("=");
+//        }
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if ("access_token".equals(cookie.getName())) {
+                value = cookie.getValue();
+                break;
+            }
+        }
 
         String username = null;
-        String jwtToken = null;
+        String jwtToken = value;
+
         // JWT Token is in the form "Bearer token". Remove Bearer word and get
         // only the Token
+
+        /* // logic with BEARER TOKEN
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
@@ -50,6 +70,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
+        }
+        */
+
+        try {
+            username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Unable to get JWT Token");
+        } catch (ExpiredJwtException e) {
+            System.out.println("JWT Token has expired");
         }
 
         // Once we get the token validate it.

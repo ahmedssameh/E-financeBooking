@@ -19,6 +19,10 @@ import java.util.List;
 @Entity
 @AllArgsConstructor @NoArgsConstructor @Data
 public class User {
+    public int getId() {
+        return id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;

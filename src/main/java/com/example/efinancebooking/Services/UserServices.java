@@ -10,6 +10,7 @@ import com.example.efinancebooking.Repos.ReviewRepo;
 import com.example.efinancebooking.Repos.RoleRepo;
 import com.example.efinancebooking.Repos.UserRepo;
 import com.example.efinancebooking.UserRequests.AddUserRequest;
+import com.example.efinancebooking.config.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +22,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,16 +37,15 @@ import java.util.List;
 public class UserServices implements UserDetailsService {
     @Autowired
     UserRepo userRepo;
-
-
     @Autowired
    private final PasswordEncoder passwordEncoder;
-
     @Autowired
     BookingObjectRepo bookingObjectRepo;
-
     @Autowired
     ReviewRepo reviewRepo;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
 
 
     @Transactional
@@ -50,6 +55,10 @@ public class UserServices implements UserDetailsService {
         userRepo.save(user);//TODO: add email to the Registration
         return "Registration is done"; //TODO: return URI with 201 status code
     }
+//    @Transactional
+//    public User GetRegisteredUser(){
+//
+//    }
     public List<User> getUsers(){
         return userRepo.findAll();
     }
@@ -81,5 +90,4 @@ public class UserServices implements UserDetailsService {
         Rated.getRate().setRate((Rate.Rate+(Rated.getRate().getRate()*Rated.getRate().getNumberOfRates()))/Rated.getRate().getNumberOfRates()+1);
         Rated.getRate().setNumberOfRates(Rated.getRate().getNumberOfRates()+1);
     }
-
 }

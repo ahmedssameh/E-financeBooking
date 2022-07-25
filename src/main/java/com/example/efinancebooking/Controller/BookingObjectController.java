@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -28,7 +29,6 @@ public class BookingObjectController {
     BookingObjectsService BookingObjService;
 
     public addBookingObjReq addBookingObjReq = new addBookingObjReq();
-
 
     @PostMapping(path ="/Add" )
     public @ResponseBody String addBookingObj(){

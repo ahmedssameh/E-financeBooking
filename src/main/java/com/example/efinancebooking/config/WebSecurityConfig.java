@@ -1,6 +1,6 @@
 package com.example.efinancebooking.config;
 import com.example.efinancebooking.JwtService.JwtUserDetailsServices;
-import com.example.efinancebooking.interceptor.RequestHeaderInterceptor;
+//import com.example.efinancebooking.interceptor.RequestHeaderInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests()
-                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/User/add").permitAll(). //TODO: to be removed
                 // all other requests need to be authenticated
                         anyRequest().authenticated().and().
