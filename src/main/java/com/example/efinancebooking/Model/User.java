@@ -22,7 +22,7 @@ public class User {
     @Size(min = 3,max = 25)
     private String Username;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     @Autowired
     private List<BookingObject> MyBookings;
 

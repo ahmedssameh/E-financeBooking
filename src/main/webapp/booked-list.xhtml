@@ -6,12 +6,17 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+
+
 <ui:composition template="layout.xhtml">
     <ui:define name="content">
         <h:form id="form">
                 <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
                 <div class="card">
-                <p:dataTable id="singleDT" var="product" value="#{productList.products}" sortOrder="descending" sortMode="multiple">
+                <p:dataTable id="singleDT" var="product" value="#{bookedList.init(1)}" sortOrder="descending" sortMode="multiple">
                     <p:column sortBy="#{product.id}">
                         <f:facet name="header"># Id</f:facet>
                         <h:outputText value="#{product.id}" />
@@ -54,29 +59,17 @@
                     <p:column rendered="#{not empty productList.selectedProduct}">
                         <div class="product">
                             <div class="product-grid-item card" style="margin-bottom: 0">
-                                <div class="product-grid-item-top">
-                                    <div>
-                                        <i class="pi pi-tag product-category-icon"/>
-                                        <span class="product-category">#{productList.selectedProduct.type.type}</span>
-                                    </div>
-                                </div>
-                                <div class="product-grid-item-content">
-                                    <div class="product-name">#{productList.selectedProduct.name}</div>
-                                    <div class="product-description">#{productList.selectedProduct.description}</div>
 
-                                    <p:rating readonly="true" value="#{productList.selectedProduct.intRate}"/>
+                                <div class="field col-12">
+                                    <p:outputLabel for="comment" value="Comment:"/>
+                                    <br/>
+                                    <p:inputTextarea id="comment" rows="3" value="#{UserController.reviewRequest.comment}"/>
                                 </div>
-                                <div class="product-grid-item-bottom">
-                                    <h:outputText value="#{productList.selectedProduct.price}"
-                                                  styleClass="product-price">
-                                        <f:convertNumber currencySymbol="$" type="currency"/>
-                                    </h:outputText>
-                                </div>
-                                <div>
-                                    <p:commandButton value="Book" actionListener="#{BookingObjectController.assign(1,productList.selectedProduct.id)}"/>
-                                    <p:commandButton   value="Cancel" actionListener="#{BookingObjectController.cancel(1,productList.selectedProduct.id)}"/>
-                                </div>
-
+                                <br/>
+                                    <p:rating value="#{UserController.reviewRequest.rate}"/>
+                                <br/>
+                                #{UserController.reviewRequest.bookingObjId=productList.selectedProduct.id}
+                                <p:commandButton actionListener="#{UserController.Rate(1,UserController.reviewRequest)}" value="Submit" />
 
                             </div>
                         </div>
