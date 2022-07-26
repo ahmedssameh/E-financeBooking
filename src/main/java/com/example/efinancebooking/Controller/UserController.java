@@ -40,4 +40,6 @@ public class UserController {
     public String hello(){
         return "pf_.xhtml";
     }
+
+
 }
