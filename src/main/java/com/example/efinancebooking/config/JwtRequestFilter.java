@@ -44,6 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //        {
 //            String[] rawCookieNameAndValuePair = rawCookieNameAndValue.split("=");
 //        }
+
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if ("access_token".equals(cookie.getName())) {
