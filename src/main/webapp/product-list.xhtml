@@ -12,29 +12,30 @@
                 <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
                 <div class="card">
                 <p:dataTable id="singleDT" var="product" value="#{productList.products}" sortOrder="descending" sortMode="multiple">
-                    <p:column sortBy="#{product.id}">
+                    <p:column sortBy="#{product.id}" filterBy="#{product.id}">
                         <f:facet name="header"># Id</f:facet>
                         <h:outputText value="#{product.id}" />
                     </p:column>
 
-                    <p:column sortBy="#{product.name}" >
+                    <p:column sortBy="#{product.name}" filterBy="#{product.name}">
                         <f:facet name="header">Name</f:facet>
                         <h:outputText value="#{product.name}" />
                     </p:column>
 
-                    <p:column sortBy="#{product.price}" >
+                    <p:column sortBy="#{product.price}" filterBy="#{product.price}" >
                         <f:facet name="header">Price</f:facet>
                         <h:outputText value="#{product.price}">
                             <f:convertNumber type="currency" currencySymbol="$ " />
                         </h:outputText>
                     </p:column>
 
-                    <p:column sortBy="#{product.type.id}" >
+                    <p:column sortBy="#{product.type.id}" filterBy="#{product.type.type}" >
                         <f:facet name="header">type</f:facet>
                         <h:outputText value="#{product.type.type}" />
                     </p:column>
 
-                    <p:column sortBy="#{product.avgRate}" >
+
+                    <p:column sortBy="#{product.avgRate}" filterBy="#{product.avgRate}" >
                         <f:facet name="header">Rate</f:facet>
                         <h:outputText value="#{product.avgRate}" />
                     </p:column>
@@ -61,7 +62,9 @@
                                     </div>
                                 </div>
                                 <div class="product-grid-item-content">
+                                    <p:outputLabel value="Product Name: " />
                                     <div class="product-name">#{productList.selectedProduct.name}</div>
+
                                     <div class="product-description">#{productList.selectedProduct.description}</div>
 
                                     <p:rating readonly="true" value="#{productList.selectedProduct.intRate}"/>

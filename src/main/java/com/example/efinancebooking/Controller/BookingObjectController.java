@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,16 +26,21 @@ import java.util.List;
 public class BookingObjectController {
 
     @Autowired
-    BookingObjectsService BookingObjService;
+    private BookingObjectsService BookingObjService;
 
     public addBookingObjReq addBookingObjReq = new addBookingObjReq();
+
+    public EditBookingObjReq editBookingObjReq= new EditBookingObjReq();
+
+//    private List<BookingObject> myPublishedAds=new ArrayList<>();
+
 
 
     @PostMapping(path ="/Add" )
     public @ResponseBody String addBookingObj(){
         BookingObjService.addNewBookObj(addBookingObjReq);
         addBookingObjReq=new addBookingObjReq();
-        return "/product-list.xhtml?faces-redirect=true";
+        return "/Published-ads.xhtml?faces-redirect=true";
     }
 
     @GetMapping(path= "/Get")
@@ -47,17 +53,8 @@ public class BookingObjectController {
         return ResponseEntity.ok().body(BookingObjService.getMyBooked(uid));
     }
 
-    @GetMapping(path="/GetMyPublishedAds")
-    public ResponseEntity<List<BookingObject>> getMyAds(@RequestParam int uid){
-        return ResponseEntity.ok().body( BookingObjService.getMyAds(uid));
-    }
 
 
-    @DeleteMapping(path="/delete")
-    public @ResponseBody ResponseEntity<?> delete(@RequestParam int bid){
-        BookingObjService.delete(bid);
-        return ResponseEntity.ok().build();
-    }
 
     @PostMapping(path = "/assign")
     public @ResponseBody ResponseEntity<?> assign(@RequestParam int uid,@RequestParam int bid){
@@ -77,7 +74,10 @@ public class BookingObjectController {
 
     @PutMapping(path = "/edit")
     public void EditBookingPost(@RequestBody EditBookingObjReq editBookingObjReq){
+        System.out.println("Heyyyyyyyyyyyyyyyyyyyyyy");
         BookingObjService.EditBookingPost(editBookingObjReq);
+        this.editBookingObjReq=new EditBookingObjReq();
+
     }
     @GetMapping(path = "/filter")
     public ResponseEntity<List<BookingObject>> getAdsFiltered(@RequestBody getAdsFilteredReq getAdsFilteredReq){
