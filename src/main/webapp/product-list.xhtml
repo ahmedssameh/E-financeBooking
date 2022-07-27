@@ -62,21 +62,26 @@
                                     </div>
                                 </div>
                                 <div class="product-grid-item-content">
-                                    <p:outputLabel value="Product Name: " />
-                                    <div class="product-name">#{productList.selectedProduct.name}</div>
-
-                                    <div class="product-description">#{productList.selectedProduct.description}</div>
-
-                                    <p:rating readonly="true" value="#{productList.selectedProduct.intRate}"/>
-                                </div>
-                                <div class="product-grid-item-bottom">
+                                    <span>
+                                        <p:outputLabel value="Product Name: " />
+                                        <span class="product-name">#{productList.selectedProduct.name}</span>
+                                    </span>
+                                    <br/>
+                                    <span>
+                                        <p:outputLabel value="Product Description: " />
+                                        <span class="product-description">#{productList.selectedProduct.description}</span>
+                                    </span>
+                                    <br/>
                                     <h:outputText value="#{productList.selectedProduct.price}"
                                                   styleClass="product-price">
                                         <f:convertNumber currencySymbol="$" type="currency"/>
                                     </h:outputText>
+                                    <br/>
+                                    <p:rating readonly="true" value="#{productList.selectedProduct.intRate}"/>
+                                    <br/>
                                 </div>
                                 <div>
-                                    <p:commandButton value="Book" actionListener="#{BookingObjectController.assign(1,productList.selectedProduct.id)}"/>
+                                    <p:commandButton value="Book" actionListener="#{BookingObjectController.assign(1,productList.selectedProduct.id)}" style="margin-right:20Px"/>
                                     <p:commandButton   value="Cancel" actionListener="#{BookingObjectController.cancel(1,productList.selectedProduct.id)}"/>
                                 </div>
 

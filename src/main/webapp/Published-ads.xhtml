@@ -44,6 +44,11 @@
                         <h:outputText value="#{product.avgRate}" />
                     </p:column>
 
+                    <p:column>
+                        <f:facet name="header">Status</f:facet>
+                        <h:outputText value="#{product.status}" />
+                    </p:column>
+
                     <p:column style="text-align: center">
 
                         <p:commandButton update=":form:productEdit" oncomplete="PF('productDialog1').show()"
