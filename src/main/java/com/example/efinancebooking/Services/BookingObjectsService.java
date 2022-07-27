@@ -31,7 +31,7 @@ public class BookingObjectsService {
     public void addNewBookObj(addBookingObjReq addBookingObjReq){
         User u = userRepo.findUserByUid(addBookingObjReq.userid);
         BookingEnum bookingEnum=bookingObjectRepo.findBookingTypeByName(addBookingObjReq.type);
-        BookingObject b = new BookingObject(addBookingObjReq.Location,
+        BookingObject b = new BookingObject(addBookingObjReq.Quantity,addBookingObjReq.Location,
                 addBookingObjReq.Name,
                 bookingEnum,
                 addBookingObjReq.PublishedDate,
@@ -64,8 +64,10 @@ public class BookingObjectsService {
     @Transactional
     public void delete(int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
-        if(DeleteConstraint(bid))
-        bookingObjectRepo.delete(Bobj);
+        if(DeleteConstraint(bid)){
+            Bobj.setStatus("deleted");
+            bookingObjectRepo.save(Bobj);
+        }
     }
     @Transactional
     public List<BookingObject> getMyAds(int uid){
@@ -83,6 +85,7 @@ public class BookingObjectsService {
     public String AssignBook(int uid,int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
         User user= userRepo.findUserByUid(uid);
+        if(!user.getMyBookings().contains(Bobj)){
         int Quantity=Bobj.getQuantity();
         if(Quantity>0) {
             Bobj.setQuantity(Quantity-1);
@@ -91,6 +94,8 @@ public class BookingObjectsService {
         userRepo.save(user);
         bookingObjectRepo.save(Bobj);
         return "Booking is done";
+        }else
+            return "You have already book this";
     }
 
     @Transactional
@@ -114,12 +119,15 @@ public class BookingObjectsService {
     @Transactional
     public boolean DeleteConstraint(int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
-        return Bobj.getQuantity()==0;
+        return Bobj.getQuantity()==Bobj.getOriginalQuantity();
     }
 
     @Transactional
     public void EditBookingPost(EditBookingObjReq EditBookingObjReq){
         BookingObject BObj= bookingObjectRepo.findBookingObjectByBid(EditBookingObjReq.id);
+        System.out.println(EditBookingObjReq.Price);
+        System.out.println(EditBookingObjReq.Quantity);
+        System.out.println(EditBookingObjReq.Description);
         BObj.setQuantity(EditBookingObjReq.Quantity);
         BObj.setPrice(EditBookingObjReq.Price);
         BObj.setDescription(EditBookingObjReq.Description);

@@ -34,7 +34,7 @@ public class ProductListController {
     @RequestAction
     @IgnorePostback
     public void loadData() {
-        products = bookingObjectRepo.findAll();
+        products = bookingObjectRepo.findActiveBookingObject();
     }
 
     public List<BookingObject> getProducts() {

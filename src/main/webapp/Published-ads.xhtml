@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+
+
+<ui:composition template="layout.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+            <div class="card">
+                <p:dataTable id="singleDT" var="product" value="#{MyPublishedAdsController.getMyAds(1)}"  sortOrder="descending" sortMode="multiple">
+                    <p:column sortBy="#{product.id}">
+                        <f:facet name="header"># Id</f:facet>
+                        <h:outputText value="#{product.id}" />
+                    </p:column>
+
+                    <p:column sortBy="#{product.name}" >
+                        <f:facet name="header">Name</f:facet>
+                        <h:outputText value="#{product.name}" />
+                    </p:column>
+
+                    <p:column sortBy="#{product.price}" >
+                        <f:facet name="header">Price</f:facet>
+                        <h:outputText value="#{product.price}">
+                            <f:convertNumber type="currency" currencySymbol="$ " />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column sortBy="#{product.type.id}" >
+                        <f:facet name="header">type</f:facet>
+                        <h:outputText value="#{product.type.type}" />
+                    </p:column>
+
+                    <p:column sortBy="#{product.avgRate}" >
+                        <f:facet name="header">Rate</f:facet>
+                        <h:outputText value="#{product.avgRate}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">Status</f:facet>
+                        <h:outputText value="#{product.status}" />
+                    </p:column>
+
+                    <p:column style="text-align: center">
+
+                        <p:commandButton update=":form:productEdit" oncomplete="PF('productDialog1').show()"
+                                          value="Edit" styleClass="ui-button-raised" title="View">
+                        <f:setPropertyActionListener value="#{product}"
+                                                     target="#{productList.selectedProduct}"/>
+                    </p:commandButton>
+
+                    </p:column>
+
+                    <p:column style="width:3rem;text-align: center">
+                        <p:commandButton update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                         icon="pi pi-trash" style="background-color: darkred; border-color: darkred"  title="View">
+                            <f:setPropertyActionListener value="#{product}"
+                                                         target="#{productList.selectedProduct}"/>
+                        </p:commandButton>
+
+                    </p:column>
+
+
+
+                </p:dataTable>
+            </div>
+
+            <p:dialog header="Edit" widgetVar="productDialog1" modal="true" showEffect="fade"
+                      hideEffect="fade" resizable="false">
+                <p:outputPanel id="productEdit" style="text-align:center;">
+                    <p:column rendered="#{not empty productList.selectedProduct}">
+                        <div class="product">
+                            <div class="product-grid-item card" style="margin-bottom: 0">
+                                    <p:outputLabel for="price" value="Price: " />
+                                    <p:inputNumber id="price" value="#{BookingObjectController.editBookingObjReq.price}"   />
+
+                                    <br/><br/>
+
+                                    <p:outputLabel for="quantity" value="quantity: " />
+                                    <p:inputNumber id="quantity" value="#{BookingObjectController.editBookingObjReq.quantity}"
+                                                    />
+                                    <br/><br/>
+
+                                    <p:outputLabel for="description" value="Description: " />
+                                    <p:inputText id="description" value="#{BookingObjectController.editBookingObjReq.description}"
+                                               />
+                                    <br/><br/>
+
+                                    #{BookingObjectController.editBookingObjReq.id=productList.selectedProduct.id}
+                                    <br/><br/>
+
+                                    <h:commandButton value="Save" actionListener="#{BookingObjectController.EditBookingPost(BookingObjectController.editBookingObjReq)}" />
+
+
+                            </div>
+                        </div>
+                    </p:column>
+                </p:outputPanel>
+            </p:dialog>
+
+            <p:dialog header="Are You Sure You Want to Delete This Product?" widgetVar="productDialog" modal="true" showEffect="fade"
+                      hideEffect="fade" resizable="false">
+                <p:outputPanel id="productDetail" style="text-align:center;">
+                    <p:column rendered="#{not empty productList.selectedProduct}">
+                        <div class="product">
+                            <div class="product-grid-item card" style="margin-bottom: 0">
+
+
+                                <p:column>
+                                    <p:commandButton style="margin-right: 10px" styleClass="rounded-button ui-button-danger" onclick="PF('cardDialog').hide()"
+                                                     icon="pi pi-times"
+                                    />
+                                </p:column>
+
+                                <p:column>
+                                    <p:commandButton styleClass="rounded-button"
+                                                     icon="pi pi-check"
+                                                     actionListener="#{MyPublishedAdsController.delete(productList.selectedProduct.id)}"
+                                    />
+                                </p:column>
+
+                            </div>
+                        </div>
+                    </p:column>
+                </p:outputPanel>
+            </p:dialog>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

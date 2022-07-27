@@ -1,6 +1,10 @@
 package com.example.efinancebooking.BookingObjectControllerClasess;
 
+import lombok.Data;
+
+@Data
 public class ReviewRequest {
-    public double Rate;
+    public int bookingObjId;
+    public int Rate;
     public String Comment;
 }

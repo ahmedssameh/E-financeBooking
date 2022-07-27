@@ -33,6 +33,7 @@ public class User {
     private String Username;
 
 
+
     @ManyToMany(fetch= FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 

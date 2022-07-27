@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 
 @Entity
@@ -40,19 +41,44 @@ public class BookingObject implements Serializable {
     private  User Publisher;
 
     private String Location;
+    private int NumberOfRates=0;
 
+    private int originalQuantity;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @Autowired
-    private Review Rate;
+    private String status = "active";
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @Autowired
+//    private List<Review> Rate;
+//
+    private double avgRate = 0.0;
 
-
-    public Review getRate() {
-        return Rate;
+    public int getNumberOfRates() {
+        return NumberOfRates;
     }
 
-    public void setRate(Review rate) {
-        Rate = rate;
+    public void setNumberOfRates(int numberOfRates) {
+        NumberOfRates = numberOfRates;
+    }
+
+
+//    public List<Review> getAllRate() {
+//        return Rate;
+//    }
+//
+//    public void addRate(Review rate) {
+//        Rate.add(rate);
+//    }
+
+    public int getIntRate() {
+        return (int) avgRate;
+    }
+
+    public double getAvgRate() {
+        return avgRate;
+    }
+
+    public void setAvgRate(double avgRate) {
+        this.avgRate = avgRate;
     }
 
     public String getLocation() {
@@ -66,7 +92,8 @@ public class BookingObject implements Serializable {
     public BookingObject() {
 
     }
-    public BookingObject(String Location,String name,BookingEnum type, Date publishedDate, String description, double price, int quantity, User publisher) {
+    public BookingObject(int OriginalQuantity,String Location,String name,BookingEnum type, Date publishedDate, String description, double price, int quantity, User publisher) {
+        this.originalQuantity=OriginalQuantity;
         this.Location=Location;
         Name=name;
         this.type = type;

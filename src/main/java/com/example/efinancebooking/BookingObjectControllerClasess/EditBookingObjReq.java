@@ -1,5 +1,8 @@
 package com.example.efinancebooking.BookingObjectControllerClasess;
 
+import lombok.Data;
+
+@Data
 public class EditBookingObjReq {
 
     public int id;

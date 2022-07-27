@@ -1,23 +1,35 @@
 package com.example.efinancebooking.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Review {
-    @Id
-    @Column
-    private Integer id;
+@NoArgsConstructor
+@AllArgsConstructor
+public class Review  {
+
+    @EmbeddedId
+    private reviewId id;
 
     private double Rate=0;
 
     private String Comment;
 
-    private int NumberOfRates=0;
+
 
     public String getComment() {
         return Comment;
+    }
+
+    public reviewId getId() {
+        return id;
+    }
+
+    public void setId(reviewId id) {
+        this.id = id;
     }
 
     public void setComment(String comment) {
@@ -33,18 +45,4 @@ public class Review {
     }
 
 
-    public int getNumberOfRates() {
-        return NumberOfRates;
-    }
-
-    public void setNumberOfRates(int numberOfRates) {
-        NumberOfRates = numberOfRates;
-    }
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }

@@ -34,5 +34,9 @@ List<BookingObject>findBookingObjectFilteredByName(String FindMe);
 
 @Query("select O from BookingObject O where O.Location like ?1")
 List<BookingObject>findBookingObjectFilteredByLocation(String FindMe);
+
+@Query("select O from BookingObject O where O.status ='active'")
+List<BookingObject>findActiveBookingObject();
+
 }
 
