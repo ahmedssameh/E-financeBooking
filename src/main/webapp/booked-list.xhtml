@@ -15,7 +15,7 @@
         <h:form id="form">
                 <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
                 <div class="card">
-                <p:dataTable id="singleDT" var="product" value="#{bookedList.init(1)}" sortOrder="descending" sortMode="multiple">
+                <p:dataTable id="singleDT" var="product" value="#{bookedList.init(request)}" sortOrder="descending" sortMode="multiple">
                     <p:column sortBy="#{product.id}">
                         <f:facet name="header"># Id</f:facet>
                         <h:outputText value="#{product.id}" />
@@ -72,7 +72,7 @@
                                     #{UserController.reviewRequest.bookingObjId=productList.selectedProduct.id}
                                 </span>
                                 <br/><br/>
-                                <p:commandButton actionListener="#{UserController.Rate(1,UserController.reviewRequest)}" value="Submit" />
+                                <p:commandButton actionListener="#{UserController.Rate(request,UserController.reviewRequest)}" value="Submit" />
 
                             </div>
                         </div>

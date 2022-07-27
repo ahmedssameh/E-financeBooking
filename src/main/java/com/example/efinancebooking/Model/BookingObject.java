@@ -1,6 +1,5 @@
 package com.example.efinancebooking.Model;
 
-import com.example.efinancebooking.enums.BookingEnum;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,7 +8,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
 
 
 @Entity
@@ -22,7 +20,7 @@ public class BookingObject implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
 
     @Autowired
-    private BookingEnum type;
+    private JwtResponse.BookingEnum type;
     private java.sql.Date PublishedDate;
     @NotNull
     @Size(min=10)
@@ -48,7 +46,7 @@ public class BookingObject implements Serializable {
     private String status = "active";
 //    @OneToMany(cascade = CascadeType.ALL)
 //    @Autowired
-//    private List<Review> Rate;
+//    private List<Review> rate;
 //
     private double avgRate = 0.0;
 
@@ -62,11 +60,11 @@ public class BookingObject implements Serializable {
 
 
 //    public List<Review> getAllRate() {
-//        return Rate;
+//        return rate;
 //    }
 //
 //    public void addRate(Review rate) {
-//        Rate.add(rate);
+//        rate.add(rate);
 //    }
 
     public int getIntRate() {
@@ -92,7 +90,7 @@ public class BookingObject implements Serializable {
     public BookingObject() {
 
     }
-    public BookingObject(int OriginalQuantity,String Location,String name,BookingEnum type, Date publishedDate, String description, double price, int quantity, User publisher) {
+    public BookingObject(int OriginalQuantity, String Location, String name, JwtResponse.BookingEnum type, Date publishedDate, String description, double price, int quantity, User publisher) {
         this.originalQuantity=OriginalQuantity;
         this.Location=Location;
         Name=name;
@@ -159,11 +157,11 @@ public class BookingObject implements Serializable {
         this.id = bid;
     }
 
-    public BookingEnum getType() {
+    public JwtResponse.BookingEnum getType() {
         return type;
     }
 
-    public void setType(BookingEnum type) {
+    public void setType(JwtResponse.BookingEnum type) {
         this.type = type;
     }
 }
