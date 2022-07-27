@@ -51,10 +51,10 @@ public class User {
     private String Email;
 
     @NotNull
-    private double PhoneNumber;
+    private String PhoneNumber;
 
 
-    public User(String username, String password, String email, double phoneNumber) {
+    public User(String username, String password, String email, String phoneNumber) {
         Username = username;
         Password = password;
         Email = email;
@@ -87,11 +87,11 @@ public class User {
         Email = email;
     }
 
-    public double getPhoneNumber() {
+    public String getPhoneNumber() {
         return PhoneNumber;
     }
 
-    public void setPhoneNumber(double phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         PhoneNumber = phoneNumber;
     }
 

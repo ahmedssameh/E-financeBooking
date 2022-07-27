@@ -16,7 +16,7 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
             <div class="card">
-                <p:dataTable id="singleDT" var="product" value="#{MyPublishedAdsController.getMyAds(1)}"  sortOrder="descending" sortMode="multiple">
+                <p:dataTable id="singleDT" var="product" value="#{MyPublishedAdsController.getMyAds(request)}"  sortOrder="descending" sortMode="multiple">
                     <p:column sortBy="#{product.id}">
                         <f:facet name="header"># Id</f:facet>
                         <h:outputText value="#{product.id}" />
@@ -95,6 +95,7 @@
                                     <br/><br/>
                                 <span>
                                     <h:outputLabel  value="Product Id:" />
+
                                     #{BookingObjectController.editBookingObjReq.id=productList.selectedProduct.id}
                                 </span>
                                     <br/><br/>

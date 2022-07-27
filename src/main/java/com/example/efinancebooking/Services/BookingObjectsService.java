@@ -71,8 +71,9 @@ public class BookingObjectsService {
         }
     }
     @Transactional
-    public List<BookingObject> getMyAds(int uid){
-        return bookingObjectRepo.getMyAds(uid);
+    public List<BookingObject> getMyAds(HttpServletRequest request){
+
+        return bookingObjectRepo.getMyAds(userRepo.findUserByName(request.getRemoteUser()).getId());
     }
 
     @Transactional

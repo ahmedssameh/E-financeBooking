@@ -21,6 +21,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -34,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component(value = "JwtAuthenticationController")
 @Join(path = "/login", to = "/login.jsf")
 @Data
+
 public class JwtAuthenticationController {
 
     @Autowired
@@ -57,10 +59,11 @@ public class JwtAuthenticationController {
 
     }
     @GetMapping(value = "/bara")
-    public void logout(HttpServletResponse response){
+    public @ResponseBody String logout(HttpServletResponse response){
         Cookie deleteServletCookie = new Cookie("access_token", null);
         deleteServletCookie.setMaxAge(0);
         response.addCookie(deleteServletCookie);
+        return "/login.xhtml?faces-redirect=true";
     }
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public String createAuthenticationToken(HttpServletResponse response) throws Exception {

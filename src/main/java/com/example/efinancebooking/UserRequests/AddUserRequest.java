@@ -7,6 +7,6 @@ public class AddUserRequest {
     private String Username;
     private String Password;
     private String Email;
-    private double PhoneNumber;
+    private String PhoneNumber;
 
 }

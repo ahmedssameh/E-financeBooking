@@ -5,7 +5,10 @@ import com.example.efinancebooking.Model.User;
 import com.example.efinancebooking.Services.UserServices;
 import com.example.efinancebooking.UserRequests.AddUserRequest;
 import lombok.Data;
+import org.ocpsoft.rewrite.annotation.Join;
+import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,19 +23,26 @@ import java.util.List;
 @RequestMapping(path="/User")
 @Component(value = "UserController")
 @Data
+
+@ELBeanName(value = "signUp")
+@Scope(value = "session")
+@Join(path = "/signUp", to = "/signUp.jsf")
 public class UserController {
 
     @Autowired
     UserServices userServices;
 
     ReviewRequest reviewRequest=new ReviewRequest();
-
+    AddUserRequest addUserRequest = new AddUserRequest();
     @PostMapping(path="/add")
-    public @ResponseBody ResponseEntity<?> Register(@Valid @RequestBody AddUserRequest user){
+    public @ResponseBody String Register(@Valid @RequestBody AddUserRequest user){
         userServices.Register(user);
-        return ResponseEntity.ok().build();
+        addUserRequest = new AddUserRequest();
+        return "/login.xhtml?faces-redirect=true";
     }
-
+    public @ResponseBody boolean isLoggedIn(HttpServletRequest request){
+        return request.getRemoteUser() != null;
+    }
     @GetMapping(path = "/get")
     public @ResponseBody ResponseEntity<List<User>> getUsers(){
         return ResponseEntity.ok().body(userServices.getUsers());

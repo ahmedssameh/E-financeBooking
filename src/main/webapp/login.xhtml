@@ -17,12 +17,13 @@
 <!--          href="${facesContext.externalContext.requestContextPath}/resources/images/favicon.ico"-->
 <!--          rel="shortcut icon" />-->
 </h:head>
+<ui:composition template="layout.xhtml">
+    <ui:define name="content">
 
-<h:body>
+
     <div id="message">
         <p:ajaxStatus style="display:block;  margin-top:.5em;">
             <f:facet name="default">
-                <h:outputText value="Please enter your credentials." />
             </f:facet>
 <!--            <f:facet name="start">-->
 <!--                <h:outputText value="Please wait #{loginBean.uname}, Connecting database..." />-->
@@ -33,6 +34,7 @@
         </p:ajaxStatus>
     </div>
 
+
     <h:form id="loginForm">
         <p:growl id="msg" showDetail="true" life="4000" />
         <p:panel id="loginPnl" header="Login"
@@ -42,7 +44,7 @@
                 <p:inputText id="username" value="#{JwtAuthenticationController.authenticationRequest.username}"></p:inputText>
                 <p:spacer /><p:spacer />
                 <h:outputText value="Password" />
-                <p:password id="password" value="#{JwtAuthenticationController.authenticationRequest.password}"
+                <p:password id="password"  value="#{JwtAuthenticationController.authenticationRequest.password}"
                             feedback="false"></p:password>
                 <p:message for="password"></p:message>
             </h:panelGrid>
@@ -56,5 +58,8 @@
             <p:graphicImage value="resources/images/loader.gif" />
         </p:blockUI>
     </h:form>
-</h:body>
+
+
+    </ui:define>
+</ui:composition>
 </html>

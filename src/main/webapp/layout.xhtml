@@ -16,10 +16,14 @@
             <div class="ui-g-12">
                 <p:toolbar>
                     <f:facet name="left">
-                        <p:button href="/" value="List of Products" style="margin-right: 15px"/>
-                        <p:button href="/Booking" value="New Product" style="margin-right: 15px"/>
-                        <p:button href="/bookedList" value="Booking List" style="margin-right: 15px"/>
-                        <p:button href="/MyPublishedAds" value="My published ads" style="margin-right: 15px"/>
+                        <p:button href="/" value="List of Products"  style="margin-right: 15px"/>
+                        <p:button href="/Booking" value="New Product" rendered="#{UserController.isLoggedIn(request)}"  style="margin-right: 15px"/>
+                        <p:button href="/bookedList" value="Booking List" rendered="#{UserController.isLoggedIn(request)}" style="margin-right: 15px"/>
+                        <p:button href="/MyPublishedAds" value="My published ads" rendered="#{UserController.isLoggedIn(request)}" style="margin-right: 15px"/>
+                        <p:button href="/login" value="login" rendered="#{!UserController.isLoggedIn(request)}" style="margin-right: 15px"/>
+                        <p:button href="/signUp" value="signUp" rendered="#{!UserController.isLoggedIn(request)}" style="margin-right: 15px"/>
+                        <p:commandButton  action="#{JwtAuthenticationController.logout(JwtAuthenticationController.jwtResponse)}" rendered="#{UserController.isLoggedIn(request)}" value="logout" style="margin-right: 15px"/>
+
                     </f:facet>
                 </p:toolbar>
             </div>
