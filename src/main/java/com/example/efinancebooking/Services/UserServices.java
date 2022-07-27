@@ -78,30 +78,19 @@ public class UserServices implements UserDetailsService {
     }
 
     @Transactional
-    public void Rate(int uid, ReviewRequest Rate){
-        User user = userRepo.findUserByUid(uid);
-        BookingObject bookingObject = bookingObjectRepo.findBookingObjectByBid(Rate.bookingObjId);
-
-        Review rate=new Review();
-        rate.setRate(Rate.Rate);
+    public void Rate(HttpServletRequest request, ReviewRequest Rate) {
+        User user = this.userRepo.findUserByName(request.getRemoteUser());
+        BookingObject bookingObject = this.bookingObjectRepo.findBookingObjectByBid(Rate.bookingObjId);
+        Review rate = new Review();
+        rate.setRate((double)Rate.Rate);
         rate.setComment(Rate.Comment);
-
-        reviewId reviewId = new reviewId(user,bookingObject);
+        reviewId reviewId = new reviewId(user, bookingObject);
         rate.setId(reviewId);
-
-        BookingObject Rated = bookingObjectRepo.findBookingObjectByBid(Rate.bookingObjId);
-
-        Rated.setAvgRate((Rate.Rate+(Rated.getAvgRate() * Rated.getNumberOfRates()))/ (Rated.getNumberOfRates()+1));
-
-        Rated.setNumberOfRates(Rated.getNumberOfRates()+1);
-
-        reviewRepo.save(rate);
-
-        bookingObjectRepo.save(Rated);
-
-//        Rated.setNumberOfRates(Rated.getNumberOfRates()+1);
-//        Rated.getRate().setRate(Rate.Rate);
-//        Rated.getRate().setComment(Rate.Comment);
-        //my rate=5 new Rate=5 number=100
+        BookingObject Rated = this.bookingObjectRepo.findBookingObjectByBid(Rate.bookingObjId);
+        Rated.setAvgRate(((double)Rate.Rate + Rated.getAvgRate() * (double)Rated.getNumberOfRates()) / (double)(Rated.getNumberOfRates() + 1));
+        Rated.setNumberOfRates(Rated.getNumberOfRates() + 1);
+        this.reviewRepo.save(rate);
+        this.bookingObjectRepo.save(Rated);
     }
+
 }

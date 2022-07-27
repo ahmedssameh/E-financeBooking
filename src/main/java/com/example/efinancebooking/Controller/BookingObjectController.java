@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +38,8 @@ public class BookingObjectController {
 
 
     @PostMapping(path ="/Add" )
-    public @ResponseBody String addBookingObj(){
-        BookingObjService.addNewBookObj(addBookingObjReq);
+    public @ResponseBody String addBookingObj(HttpServletRequest request){
+        BookingObjService.addNewBookObj(addBookingObjReq,request);
         addBookingObjReq=new addBookingObjReq();
         return "/Published-ads.xhtml?faces-redirect=true";
     }

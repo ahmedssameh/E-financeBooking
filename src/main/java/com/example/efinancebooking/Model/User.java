@@ -12,9 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @AllArgsConstructor @NoArgsConstructor @Data
@@ -35,11 +33,11 @@ public class User {
 
 
     @ManyToMany(fetch= FetchType.EAGER)
-    private Collection<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>();
 
 
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     @Autowired
     private List<BookingObject> MyBookings;
 
