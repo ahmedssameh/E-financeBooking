@@ -10,20 +10,18 @@
             <p:panel header="Sign Up">
                 <h:panelGrid columns="1">
                     <p:outputLabel for="username" value="Username: " />
-                    <p:inputText id="username"  />
+                    <p:inputText id="username" value="#{UserController.addUserRequest.username}" />
 
                     <p:outputLabel for="email" value="Email: " />
-                    <p:inputText id="email"  />
+                    <p:inputText id="email"  value="#{UserController.addUserRequest.email}"/>
 
                     <p:outputLabel for="password" value="Password: " />
-                    <p:inputText id="password"  />
+                    <p:password id="password" value="#{UserController.addUserRequest.password}" />
 
                     <p:outputLabel for="phoneNum" value="Phone Number: " />
-                    <p:inputText id="phoneNum"  />
+                    <p:inputText id="phoneNum" value="#{UserController.addUserRequest.phoneNumber}"/>
 
-
-
-                    <p:commandButton  value="sign up"  iconPos="right" />
+                    <p:commandButton  value="sign up"  iconPos="right" action="#{UserController.Register(UserController.addUserRequest)}" />
 
 
                 </h:panelGrid>

@@ -33,13 +33,16 @@ public class UserController {
     UserServices userServices;
 
     ReviewRequest reviewRequest=new ReviewRequest();
-
+    AddUserRequest addUserRequest = new AddUserRequest();
     @PostMapping(path="/add")
-    public @ResponseBody ResponseEntity<?> Register(@Valid @RequestBody AddUserRequest user){
+    public @ResponseBody String Register(@Valid @RequestBody AddUserRequest user){
         userServices.Register(user);
-        return ResponseEntity.ok().build();
+        addUserRequest = new AddUserRequest();
+        return "/login.xhtml?faces-redirect=true";
     }
-
+    public @ResponseBody boolean isLoggedIn(HttpServletRequest request){
+        return request.getRemoteUser() != null;
+    }
     @GetMapping(path = "/get")
     public @ResponseBody ResponseEntity<List<User>> getUsers(){
         return ResponseEntity.ok().body(userServices.getUsers());
