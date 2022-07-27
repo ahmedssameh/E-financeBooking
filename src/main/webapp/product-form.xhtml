@@ -27,8 +27,8 @@
                     <p:outputLabel for="type" value="type: " />
                     <p:inputText id="type" value="#{BookingObjectController.addBookingObjReq.type}" />
 
-
-                    <p:inputNumber id="id" type="hidden" value="#{userRepo.findUserByName(request.remoteUser).id}" />
+                    #{BookingObjectController.addBookingObjReq.userid=userRepo.findUserByName(request.remoteUser).id}
+<!--                 <p:inputNumber id="id" type="hidden" value="#{userRepo.findUserByName(request.remoteUser).id}" />-->
 
                     <h:commandButton value="Save" action="#{BookingObjectController.addBookingObj}" />
 
