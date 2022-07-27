@@ -56,15 +56,12 @@ public class JwtAuthenticationController {
         this.authenticationRequest = new JwtRequest();
 
     }
-
     @GetMapping(value = "/bara")
     public void logout(HttpServletResponse response){
         Cookie deleteServletCookie = new Cookie("access_token", null);
         deleteServletCookie.setMaxAge(0);
         response.addCookie(deleteServletCookie);
     }
-
-
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public String createAuthenticationToken(HttpServletResponse response) throws Exception {
 
