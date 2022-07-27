@@ -93,11 +93,13 @@
                                     <p:inputText id="description" value="#{BookingObjectController.editBookingObjReq.description}"
                                                />
                                     <br/><br/>
-
+                                <span>
+                                    <h:outputLabel  value="Product Id:" />
                                     #{BookingObjectController.editBookingObjReq.id=productList.selectedProduct.id}
+                                </span>
                                     <br/><br/>
 
-                                    <h:commandButton value="Save" actionListener="#{BookingObjectController.EditBookingPost(BookingObjectController.editBookingObjReq)}" />
+                                    <p:commandButton value="Save" actionListener="#{BookingObjectController.EditBookingPost(BookingObjectController.editBookingObjReq)}" />
 
 
                             </div>

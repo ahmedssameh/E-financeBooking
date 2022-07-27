@@ -81,7 +81,7 @@
                                     <br/>
                                 </div>
                                 <div>
-                                    <p:commandButton value="Book" actionListener="#{BookingObjectController.assign(1,productList.selectedProduct.id)}" style="margin-right:20Px"/>
+                                    <p:commandButton onclick="PF('productDialog').hide()" value="Book" actionListener="#{BookingObjectController.assign(1,productList.selectedProduct.id)}" style="margin-right:20Px"/>
                                     <p:commandButton   value="Cancel" actionListener="#{BookingObjectController.cancel(1,productList.selectedProduct.id)}"/>
                                 </div>
 

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Configuration
@@ -28,8 +29,8 @@ public class BookingObjectsService {
     UserRepo userRepo;
 
     @Transactional
-    public void addNewBookObj(addBookingObjReq addBookingObjReq){
-        User u = userRepo.findUserByUid(addBookingObjReq.userid);
+    public void addNewBookObj(addBookingObjReq addBookingObjReq, HttpServletRequest request){
+        User u = userRepo.findUserByName(request.getRemoteUser());
         BookingEnum bookingEnum=bookingObjectRepo.findBookingTypeByName(addBookingObjReq.type);
         BookingObject b = new BookingObject(addBookingObjReq.Quantity,addBookingObjReq.Location,
                 addBookingObjReq.Name,

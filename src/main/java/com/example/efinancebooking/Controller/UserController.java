@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class UserController {
         return ResponseEntity.ok().body(userServices.getUsers());
     }
     @PutMapping(path = "/rate")
-    public @ResponseBody ResponseEntity<?> Rate(@RequestParam int uid,@RequestBody ReviewRequest Rate){
-        userServices.Rate(uid, Rate);
+    public @ResponseBody ResponseEntity<?> Rate(HttpServletRequest request, @RequestBody ReviewRequest Rate){
+        userServices.Rate(request, Rate);
         reviewRequest=new ReviewRequest();
         return ResponseEntity.ok().build();
     }
