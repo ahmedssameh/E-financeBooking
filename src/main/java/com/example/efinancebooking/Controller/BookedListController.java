@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +31,9 @@ public class BookedListController {
     private BookingObject selectedBook;
 
 
-    public List<BookingObject> init(int uid) {
+    public List<BookingObject> init(HttpServletRequest request) {
 
-        return userRepo.findUserByUid(uid).getMyBookings();
+        return userRepo.findUserByName(request.getRemoteUser()).getMyBookings();
     }
 
     public void setData(){

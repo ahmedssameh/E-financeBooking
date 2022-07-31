@@ -5,10 +5,10 @@ import com.example.efinancebooking.BookingObjectControllerClasess.EditBookingObj
 import com.example.efinancebooking.BookingObjectControllerClasess.addBookingObjReq;
 import com.example.efinancebooking.BookingObjectControllerClasess.getAdsFilteredReq;
 import com.example.efinancebooking.Model.BookingObject;
+import com.example.efinancebooking.Model.JwtResponse;
 import com.example.efinancebooking.Model.User;
 import com.example.efinancebooking.Repos.BookingObjectRepo;
 import com.example.efinancebooking.Repos.UserRepo;
-import com.example.efinancebooking.enums.BookingEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class BookingObjectsService {
     @Transactional
     public void addNewBookObj(addBookingObjReq addBookingObjReq, HttpServletRequest request){
         User u = userRepo.findUserByName(request.getRemoteUser());
-        BookingEnum bookingEnum=bookingObjectRepo.findBookingTypeByName(addBookingObjReq.type);
+        JwtResponse.BookingEnum bookingEnum=bookingObjectRepo.findBookingTypeByName(addBookingObjReq.type);
         BookingObject b = new BookingObject(addBookingObjReq.Quantity,addBookingObjReq.Location,
                 addBookingObjReq.Name,
                 bookingEnum,
@@ -71,39 +71,43 @@ public class BookingObjectsService {
         }
     }
     @Transactional
-    public List<BookingObject> getMyAds(HttpServletRequest request){
+    public List<BookingObject> getPublisherBookings(HttpServletRequest request){
 
-        return bookingObjectRepo.getMyAds(userRepo.findUserByName(request.getRemoteUser()).getId());
+        return bookingObjectRepo.getPublisherBookings(userRepo.findUserByName(request.getRemoteUser()).getId());
     }
 
     @Transactional
-    public List<BookingObject> getMyBooked(int uid){
+    public List<BookingObject> getUserBookings(int uid){
 
         User user=userRepo.findUserByUid(uid);
         return user.getMyBookings();
     }
 
     @Transactional
-    public String AssignBook(int uid,int bid){
+    public String AssignBook(HttpServletRequest request,int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
-        User user= userRepo.findUserByUid(uid);
+        User user= userRepo.findUserByName(request.getRemoteUser());
         if(!user.getMyBookings().contains(Bobj)){
-        int Quantity=Bobj.getQuantity();
-        if(Quantity>0) {
-            Bobj.setQuantity(Quantity-1);
+            int Quantity=Bobj.getQuantity();
+            if(Quantity>0) {
+                Bobj.setQuantity(Quantity-1);
+                user.getMyBookings().add(Bobj);
+                userRepo.save(user);
+                bookingObjectRepo.save(Bobj);
+                return "Booking is done";
+            }
+            else
+                return "no available quantity";
+
         }
-        user.getMyBookings().add(Bobj);
-        userRepo.save(user);
-        bookingObjectRepo.save(Bobj);
-        return "Booking is done";
-        }else
+        else
             return "You have already book this";
     }
 
     @Transactional
-    public String cancel(int uid,int bid){
+    public String cancel(HttpServletRequest request,int bid){
         BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
-        User user= userRepo.findUserByUid(uid);
+        User user= userRepo.findUserByName(request.getRemoteUser());
         int Quantity=Bobj.getQuantity()+1;
         Bobj.setQuantity(Quantity);
         user.getMyBookings().remove(Bobj);

@@ -3,12 +3,10 @@ package com.example.efinancebooking.Services;
 import com.example.efinancebooking.BookingObjectControllerClasess.ReviewRequest;
 import com.example.efinancebooking.Model.BookingObject;
 import com.example.efinancebooking.Model.Review;
-import com.example.efinancebooking.Model.Role;
 import com.example.efinancebooking.Model.User;
 import com.example.efinancebooking.Model.reviewId;
 import com.example.efinancebooking.Repos.BookingObjectRepo;
 import com.example.efinancebooking.Repos.ReviewRepo;
-import com.example.efinancebooking.Repos.RoleRepo;
 import com.example.efinancebooking.Repos.UserRepo;
 import com.example.efinancebooking.UserRequests.AddUserRequest;
 import com.example.efinancebooking.config.JwtTokenUtil;
@@ -21,15 +19,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -78,18 +69,18 @@ public class UserServices implements UserDetailsService {
     }
 
     @Transactional
-    public void Rate(HttpServletRequest request, ReviewRequest Rate) {
+    public void Rate(HttpServletRequest request, ReviewRequest reviewRequest) {
         User user = this.userRepo.findUserByName(request.getRemoteUser());
-        BookingObject bookingObject = this.bookingObjectRepo.findBookingObjectByBid(Rate.bookingObjId);
-        Review rate = new Review();
-        rate.setRate((double)Rate.Rate);
-        rate.setComment(Rate.Comment);
+        BookingObject bookingObject = this.bookingObjectRepo.findBookingObjectByBid(reviewRequest.bookingObjId);
+        Review review = new Review();
+        review.setRate(reviewRequest.rate);
+        review.setComment(reviewRequest.comment);
         reviewId reviewId = new reviewId(user, bookingObject);
-        rate.setId(reviewId);
-        BookingObject Rated = this.bookingObjectRepo.findBookingObjectByBid(Rate.bookingObjId);
-        Rated.setAvgRate(((double)Rate.Rate + Rated.getAvgRate() * (double)Rated.getNumberOfRates()) / (double)(Rated.getNumberOfRates() + 1));
+        review.setId(reviewId);
+        BookingObject Rated = this.bookingObjectRepo.findBookingObjectByBid(reviewRequest.bookingObjId);
+        Rated.setAvgRate(((double) reviewRequest.rate + Rated.getAvgRate() * (double)Rated.getNumberOfRates()) / (double)(Rated.getNumberOfRates() + 1));
         Rated.setNumberOfRates(Rated.getNumberOfRates() + 1);
-        this.reviewRepo.save(rate);
+        this.reviewRepo.save(review);
         this.bookingObjectRepo.save(Rated);
     }
 

@@ -7,7 +7,6 @@ import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +28,7 @@ public class MyPublishedAdsController {
     @GetMapping(path="/GetMyPublishedAds")
     public List<BookingObject> getMyAds(HttpServletRequest request){
 
-        return bookingObjectsService.getMyAds(request);
+        return bookingObjectsService.getPublisherBookings(request);
     }
 
     @DeleteMapping(path="/delete")

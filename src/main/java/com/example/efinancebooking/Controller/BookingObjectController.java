@@ -14,8 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -51,22 +49,22 @@ public class BookingObjectController {
 
     @GetMapping(path= "/GetMyBookings")
     public @ResponseBody ResponseEntity<List<BookingObject>> getMyBookings(@RequestParam int uid){
-        return ResponseEntity.ok().body(BookingObjService.getMyBooked(uid));
+        return ResponseEntity.ok().body(BookingObjService.getUserBookings(uid));
     }
 
 
 
 
     @PostMapping(path = "/assign")
-    public @ResponseBody ResponseEntity<?> assign(@RequestParam int uid,@RequestParam int bid){
-        BookingObjService.AssignBook(uid,bid);
+    public @ResponseBody ResponseEntity<?> assign(@RequestParam HttpServletRequest request,@RequestParam int bid){
+        BookingObjService.AssignBook(request,bid);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/cancel")
-    public @ResponseBody ResponseEntity<?> cancel(@RequestParam int uid,@RequestParam int bid){
+    public @ResponseBody ResponseEntity<?> cancel(@RequestParam HttpServletRequest request,@RequestParam int bid){
         if(BookingObjService.CancelConstraint(bid)) {
-            BookingObjService.cancel(uid, bid);
+            BookingObjService.cancel(request, bid);
             return ResponseEntity.ok().build();
         }else{
             return ResponseEntity.badRequest().build();

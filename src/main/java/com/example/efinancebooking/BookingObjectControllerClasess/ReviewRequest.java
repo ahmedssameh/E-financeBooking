@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class ReviewRequest {
     public int bookingObjId;
-    public int Rate;
-    public String Comment;
+    public int rate;
+    public String comment;
 }
