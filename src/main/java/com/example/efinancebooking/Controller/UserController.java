@@ -1,8 +1,8 @@
 package com.example.efinancebooking.Controller;
 
-import com.example.efinancebooking.BookingObjectControllerClasess.ReviewRequest;
+import com.example.efinancebooking.BookingRequests.ReviewRequest;
 import com.example.efinancebooking.Model.User;
-import com.example.efinancebooking.Services.UserServices;
+import com.example.efinancebooking.Services.UserService;
 import com.example.efinancebooking.UserRequests.AddUserRequest;
 import lombok.Data;
 import org.ocpsoft.rewrite.annotation.Join;
@@ -30,7 +30,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserServices userServices;
+    UserService userServices;
 
     ReviewRequest reviewRequest=new ReviewRequest();
     AddUserRequest addUserRequest = new AddUserRequest();
@@ -54,10 +54,6 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(path = "/hello")
-    public String hello(){
-        return "pf_.xhtml";
-    }
 
 
 }

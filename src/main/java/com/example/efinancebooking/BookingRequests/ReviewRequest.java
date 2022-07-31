@@ -1,4 +1,4 @@
-package com.example.efinancebooking.BookingObjectControllerClasess;
+package com.example.efinancebooking.BookingRequests;
 
 import lombok.Data;
 

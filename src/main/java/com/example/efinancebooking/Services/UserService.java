@@ -1,11 +1,11 @@
 package com.example.efinancebooking.Services;
 
-import com.example.efinancebooking.BookingObjectControllerClasess.ReviewRequest;
-import com.example.efinancebooking.Model.BookingObject;
+import com.example.efinancebooking.BookingRequests.ReviewRequest;
+import com.example.efinancebooking.Model.Booking;
 import com.example.efinancebooking.Model.Review;
 import com.example.efinancebooking.Model.User;
 import com.example.efinancebooking.Model.reviewId;
-import com.example.efinancebooking.Repos.BookingObjectRepo;
+import com.example.efinancebooking.Repos.BookingRepo;
 import com.example.efinancebooking.Repos.ReviewRepo;
 import com.example.efinancebooking.Repos.UserRepo;
 import com.example.efinancebooking.UserRequests.AddUserRequest;
@@ -26,13 +26,13 @@ import java.util.Collection;
 import java.util.List;
 
 @Service @RequiredArgsConstructor
-public class UserServices implements UserDetailsService {
+public class UserService implements UserDetailsService {
     @Autowired
     UserRepo userRepo;
     @Autowired
    private final PasswordEncoder passwordEncoder;
     @Autowired
-    BookingObjectRepo bookingObjectRepo;
+    BookingRepo bookingObjectRepo;
     @Autowired
     ReviewRepo reviewRepo;
     @Autowired
@@ -71,13 +71,13 @@ public class UserServices implements UserDetailsService {
     @Transactional
     public void Rate(HttpServletRequest request, ReviewRequest reviewRequest) {
         User user = this.userRepo.findUserByName(request.getRemoteUser());
-        BookingObject bookingObject = this.bookingObjectRepo.findBookingObjectByBid(reviewRequest.bookingObjId);
+        Booking bookingObject = this.bookingObjectRepo.findBookingObjectByBid(reviewRequest.bookingObjId);
         Review review = new Review();
         review.setRate(reviewRequest.rate);
         review.setComment(reviewRequest.comment);
         reviewId reviewId = new reviewId(user, bookingObject);
         review.setId(reviewId);
-        BookingObject Rated = this.bookingObjectRepo.findBookingObjectByBid(reviewRequest.bookingObjId);
+        Booking Rated = this.bookingObjectRepo.findBookingObjectByBid(reviewRequest.bookingObjId);
         Rated.setAvgRate(((double) reviewRequest.rate + Rated.getAvgRate() * (double)Rated.getNumberOfRates()) / (double)(Rated.getNumberOfRates() + 1));
         Rated.setNumberOfRates(Rated.getNumberOfRates() + 1);
         this.reviewRepo.save(review);

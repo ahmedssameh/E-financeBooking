@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RoleServices {
+public class RoleService {
 
     @Autowired
     RoleRepo roleRepo;

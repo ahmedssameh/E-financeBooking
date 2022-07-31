@@ -12,7 +12,7 @@ import java.sql.Date;
 
 @Entity
 @Data
-public class BookingObject implements Serializable {
+public class Booking implements Serializable {
     @Id
     @GeneratedValue
     private int id;
@@ -20,7 +20,7 @@ public class BookingObject implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
 
     @Autowired
-    private JwtResponse.BookingEnum type;
+    private BookingType type;
     private java.sql.Date PublishedDate;
     @NotNull
     @Size(min=10)
@@ -87,10 +87,10 @@ public class BookingObject implements Serializable {
         Location = location;
     }
 
-    public BookingObject() {
+    public Booking() {
 
     }
-    public BookingObject(int OriginalQuantity, String Location, String name, JwtResponse.BookingEnum type, Date publishedDate, String description, double price, int quantity, User publisher) {
+    public Booking(int OriginalQuantity, String Location, String name, BookingType type, Date publishedDate, String description, double price, int quantity, User publisher) {
         this.originalQuantity=OriginalQuantity;
         this.Location=Location;
         Name=name;
@@ -157,11 +157,11 @@ public class BookingObject implements Serializable {
         this.id = bid;
     }
 
-    public JwtResponse.BookingEnum getType() {
+    public BookingType getType() {
         return type;
     }
 
-    public void setType(JwtResponse.BookingEnum type) {
+    public void setType(BookingType type) {
         this.type = type;
     }
 }

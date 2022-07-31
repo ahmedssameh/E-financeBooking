@@ -1,10 +1,10 @@
 package com.example.efinancebooking.Controller;
 
-import com.example.efinancebooking.BookingObjectControllerClasess.EditBookingObjReq;
-import com.example.efinancebooking.BookingObjectControllerClasess.addBookingObjReq;
-import com.example.efinancebooking.BookingObjectControllerClasess.getAdsFilteredReq;
-import com.example.efinancebooking.Model.BookingObject;
-import com.example.efinancebooking.Services.BookingObjectsService;
+import com.example.efinancebooking.BookingRequests.EditBookingReq;
+import com.example.efinancebooking.BookingRequests.AddBookingReq;
+import com.example.efinancebooking.BookingRequests.FilteredBookingReq;
+import com.example.efinancebooking.Model.Booking;
+import com.example.efinancebooking.Services.BookingService;
 import lombok.Data;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
@@ -25,31 +25,31 @@ import java.util.List;
 public class BookingObjectController {
 
     @Autowired
-    private BookingObjectsService BookingObjService;
+    private BookingService BookingService;
 
-    public addBookingObjReq addBookingObjReq = new addBookingObjReq();
+    public AddBookingReq addBookingReq = new AddBookingReq();
 
-    public EditBookingObjReq editBookingObjReq= new EditBookingObjReq();
+    public EditBookingReq editBookingReq = new EditBookingReq();
 
 //    private List<BookingObject> myPublishedAds=new ArrayList<>();
 
 
 
     @PostMapping(path ="/Add" )
-    public @ResponseBody String addBookingObj(HttpServletRequest request){
-        BookingObjService.addNewBookObj(addBookingObjReq,request);
-        addBookingObjReq=new addBookingObjReq();
+    public @ResponseBody String addBooking(HttpServletRequest request){
+        BookingService.addNewBookObj(addBookingReq,request);
+        addBookingReq =new AddBookingReq();
         return "/Published-ads.xhtml?faces-redirect=true";
     }
 
     @GetMapping(path= "/Get")
-    public @ResponseBody ResponseEntity<List<BookingObject>> getAllBookingObj(){
-        return ResponseEntity.ok().body(BookingObjService.getAllBookingObj());
+    public @ResponseBody ResponseEntity<List<Booking>> getAllBookings(){
+        return ResponseEntity.ok().body(BookingService.getAllBookingObj());
     }
 
     @GetMapping(path= "/GetMyBookings")
-    public @ResponseBody ResponseEntity<List<BookingObject>> getMyBookings(@RequestParam int uid){
-        return ResponseEntity.ok().body(BookingObjService.getUserBookings(uid));
+    public @ResponseBody ResponseEntity<List<Booking>> getMyBookings(@RequestParam int uid){
+        return ResponseEntity.ok().body(BookingService.getUserBookings(uid));
     }
 
 
@@ -57,14 +57,14 @@ public class BookingObjectController {
 
     @PostMapping(path = "/assign")
     public @ResponseBody ResponseEntity<?> assign(@RequestParam HttpServletRequest request,@RequestParam int bid){
-        BookingObjService.AssignBook(request,bid);
+        BookingService.AssignBook(request,bid);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/cancel")
     public @ResponseBody ResponseEntity<?> cancel(@RequestParam HttpServletRequest request,@RequestParam int bid){
-        if(BookingObjService.CancelConstraint(bid)) {
-            BookingObjService.cancel(request, bid);
+        if(BookingService.CancelConstraint(bid)) {
+            BookingService.cancel(request, bid);
             return ResponseEntity.ok().build();
         }else{
             return ResponseEntity.badRequest().build();
@@ -72,24 +72,24 @@ public class BookingObjectController {
     }
 
     @PutMapping(path = "/edit")
-    public void EditBookingPost(@RequestBody EditBookingObjReq editBookingObjReq){
+    public void EditBookingPost(@RequestBody EditBookingReq editBookingObjReq){
         System.out.println("Heyyyyyyyyyyyyyyyyyyyyyy");
-        BookingObjService.EditBookingPost(editBookingObjReq);
-        this.editBookingObjReq=new EditBookingObjReq();
+        BookingService.EditBookingPost(editBookingObjReq);
+        this.editBookingReq =new EditBookingReq();
 
     }
     @GetMapping(path = "/filter")
-    public ResponseEntity<List<BookingObject>> getAdsFiltered(@RequestBody getAdsFilteredReq getAdsFilteredReq){
-        return ResponseEntity.ok().body(BookingObjService.getAdsFiltered(getAdsFilteredReq));
+    public ResponseEntity<List<Booking>> getAdsFiltered(@RequestBody FilteredBookingReq getAdsFilteredReq){
+        return ResponseEntity.ok().body(BookingService.getAdsFiltered(getAdsFilteredReq));
     }
 
     @GetMapping(path = "/SearchByName")
-    public ResponseEntity<List<BookingObject>> getAdsFilteredByName(@RequestParam String FindMe){
-        return ResponseEntity.ok().body(BookingObjService.SearchByName(FindMe));
+    public ResponseEntity<List<Booking>> getAdsFilteredByName(@RequestParam String FindMe){
+        return ResponseEntity.ok().body(BookingService.SearchByName(FindMe));
     }
 
     @GetMapping(path = "/SearchByLocation")
-    public ResponseEntity<List<BookingObject>> getAdsFilteredByLocation(@RequestParam String FindMe){
-        return ResponseEntity.ok().body(BookingObjService.SearchByLocation(FindMe));
+    public ResponseEntity<List<Booking>> getAdsFilteredByLocation(@RequestParam String FindMe){
+        return ResponseEntity.ok().body(BookingService.SearchByLocation(FindMe));
     }
 }

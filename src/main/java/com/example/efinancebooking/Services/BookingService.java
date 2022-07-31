@@ -1,13 +1,13 @@
 package com.example.efinancebooking.Services;
 
 
-import com.example.efinancebooking.BookingObjectControllerClasess.EditBookingObjReq;
-import com.example.efinancebooking.BookingObjectControllerClasess.addBookingObjReq;
-import com.example.efinancebooking.BookingObjectControllerClasess.getAdsFilteredReq;
-import com.example.efinancebooking.Model.BookingObject;
-import com.example.efinancebooking.Model.JwtResponse;
+import com.example.efinancebooking.BookingRequests.EditBookingReq;
+import com.example.efinancebooking.BookingRequests.AddBookingReq;
+import com.example.efinancebooking.BookingRequests.FilteredBookingReq;
+import com.example.efinancebooking.Model.Booking;
+import com.example.efinancebooking.Model.BookingType;
 import com.example.efinancebooking.Model.User;
-import com.example.efinancebooking.Repos.BookingObjectRepo;
+import com.example.efinancebooking.Repos.BookingRepo;
 import com.example.efinancebooking.Repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -19,22 +19,22 @@ import java.util.List;
 
 @Configuration
 @Service
-public class BookingObjectsService {
+public class BookingService {
 
 
     @Autowired
-    BookingObjectRepo bookingObjectRepo;
+    BookingRepo bookingObjectRepo;
 
     @Autowired
     UserRepo userRepo;
 
     @Transactional
-    public void addNewBookObj(addBookingObjReq addBookingObjReq, HttpServletRequest request){
+    public void addNewBookObj(AddBookingReq addBookingObjReq, HttpServletRequest request){
         User u = userRepo.findUserByName(request.getRemoteUser());
-        JwtResponse.BookingEnum bookingEnum=bookingObjectRepo.findBookingTypeByName(addBookingObjReq.type);
-        BookingObject b = new BookingObject(addBookingObjReq.Quantity,addBookingObjReq.Location,
+        BookingType bookingTypes =bookingObjectRepo.findBookingTypeByName(addBookingObjReq.type);
+        Booking b = new Booking(addBookingObjReq.Quantity,addBookingObjReq.Location,
                 addBookingObjReq.Name,
-                bookingEnum,
+                bookingTypes,
                 addBookingObjReq.PublishedDate,
                 addBookingObjReq.Description,
                 addBookingObjReq.Price,
@@ -43,12 +43,12 @@ public class BookingObjectsService {
         bookingObjectRepo.save(b);
     }
     @Transactional
-    public List<BookingObject> getAllBookingObj(){
+    public List<Booking> getAllBookingObj(){
 
         return bookingObjectRepo.findAll();
     }
     @Transactional
-    public List<BookingObject> getAdsFiltered(getAdsFilteredReq getAdsFilteredReq){
+    public List<Booking> getAdsFiltered(FilteredBookingReq getAdsFilteredReq){
          double minPrice = getAdsFilteredReq.minPrice;
          double maxPrice = getAdsFilteredReq.maxPrice;
          int minQuantity = getAdsFilteredReq.minQuantity;
@@ -64,20 +64,20 @@ public class BookingObjectsService {
 
     @Transactional
     public void delete(int bid){
-        BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
+        Booking Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
         if(DeleteConstraint(bid)){
             Bobj.setStatus("deleted");
             bookingObjectRepo.save(Bobj);
         }
     }
     @Transactional
-    public List<BookingObject> getPublisherBookings(HttpServletRequest request){
+    public List<Booking> getPublisherBookings(HttpServletRequest request){
 
         return bookingObjectRepo.getPublisherBookings(userRepo.findUserByName(request.getRemoteUser()).getId());
     }
 
     @Transactional
-    public List<BookingObject> getUserBookings(int uid){
+    public List<Booking> getUserBookings(int uid){
 
         User user=userRepo.findUserByUid(uid);
         return user.getMyBookings();
@@ -85,7 +85,7 @@ public class BookingObjectsService {
 
     @Transactional
     public String AssignBook(HttpServletRequest request,int bid){
-        BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
+        Booking Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
         User user= userRepo.findUserByName(request.getRemoteUser());
         if(!user.getMyBookings().contains(Bobj)){
             int Quantity=Bobj.getQuantity();
@@ -106,7 +106,7 @@ public class BookingObjectsService {
 
     @Transactional
     public String cancel(HttpServletRequest request,int bid){
-        BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
+        Booking Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
         User user= userRepo.findUserByName(request.getRemoteUser());
         int Quantity=Bobj.getQuantity()+1;
         Bobj.setQuantity(Quantity);
@@ -118,19 +118,19 @@ public class BookingObjectsService {
 
     @Transactional
     public boolean CancelConstraint(int bid){
-        BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
+        Booking Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
         return Bobj.getPrice() > 100;
     }
 
     @Transactional
     public boolean DeleteConstraint(int bid){
-        BookingObject Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
+        Booking Bobj= bookingObjectRepo.findBookingObjectByBid(bid);
         return Bobj.getQuantity()==Bobj.getOriginalQuantity();
     }
 
     @Transactional
-    public void EditBookingPost(EditBookingObjReq EditBookingObjReq){
-        BookingObject BObj= bookingObjectRepo.findBookingObjectByBid(EditBookingObjReq.id);
+    public void EditBookingPost(EditBookingReq EditBookingObjReq){
+        Booking BObj= bookingObjectRepo.findBookingObjectByBid(EditBookingObjReq.id);
         System.out.println(EditBookingObjReq.Price);
         System.out.println(EditBookingObjReq.Quantity);
         System.out.println(EditBookingObjReq.Description);
@@ -141,13 +141,13 @@ public class BookingObjectsService {
     }
 
     @Transactional
-    public List<BookingObject> SearchByName(String FindMe){
+    public List<Booking> SearchByName(String FindMe){
         FindMe='%'+FindMe+'%';
         return bookingObjectRepo.findBookingObjectFilteredByName(FindMe);
     }
 
     @Transactional
-    public List<BookingObject> SearchByLocation(String FindMe){
+    public List<Booking> SearchByLocation(String FindMe){
         FindMe='%'+FindMe+'%';
         return bookingObjectRepo.findBookingObjectFilteredByLocation(FindMe);
     }

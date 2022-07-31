@@ -11,7 +11,7 @@
         <h:form id="form">
                 <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
                 <div class="card">
-                <p:dataTable id="singleDT" var="product" value="#{productList.products}" sortOrder="descending" sortMode="multiple">
+                <p:dataTable id="singleDT" var="product" value="#{productList.bookings}" sortOrder="descending" sortMode="multiple">
                     <p:column sortBy="#{product.id}" filterBy="#{product.id}">
                         <f:facet name="header"># Id</f:facet>
                         <h:outputText value="#{product.id}" />
@@ -43,7 +43,7 @@
                         <p:commandButton update=":form:productDetail" oncomplete="PF('productDialog').show()"
                                          icon="pi pi-search" title="View">
                             <f:setPropertyActionListener value="#{product}"
-                                                         target="#{productList.selectedProduct}"/>
+                                                         target="#{productList.selectedBooking}"/>
                         </p:commandButton>
                     </p:column>
 
@@ -52,37 +52,37 @@
             <p:dialog header="Product Info" widgetVar="productDialog" modal="true" showEffect="fade"
                       hideEffect="fade" resizable="false">
                 <p:outputPanel id="productDetail" style="text-align:center;">
-                    <p:column rendered="#{not empty productList.selectedProduct}">
+                    <p:column rendered="#{not empty productList.selectedBooking}">
                         <div class="product">
                             <div class="product-grid-item card" style="margin-bottom: 0">
                                 <div class="product-grid-item-top">
                                     <div>
                                         <i class="pi pi-tag product-category-icon"/>
-                                        <span class="product-category">#{productList.selectedProduct.type.type}</span>
+                                        <span class="product-category">#{productList.selectedBooking.type.type}</span>
                                     </div>
                                 </div>
                                 <div class="product-grid-item-content">
                                     <span>
                                         <p:outputLabel value="Product Name: " />
-                                        <span class="product-name">#{productList.selectedProduct.name}</span>
+                                        <span class="product-name">#{productList.selectedBooking.name}</span>
                                     </span>
                                     <br/>
                                     <span>
                                         <p:outputLabel value="Product Description: " />
-                                        <span class="product-description">#{productList.selectedProduct.description}</span>
+                                        <span class="product-description">#{productList.selectedBooking.description}</span>
                                     </span>
                                     <br/>
-                                    <h:outputText value="#{productList.selectedProduct.price}"
+                                    <h:outputText value="#{productList.selectedBooking.price}"
                                                   styleClass="product-price">
                                         <f:convertNumber currencySymbol="$" type="currency"/>
                                     </h:outputText>
                                     <br/>
-                                    <p:rating readonly="true" value="#{productList.selectedProduct.intRate}"/>
+                                    <p:rating readonly="true" value="#{productList.selectedBooking.intRate}"/>
                                     <br/>
                                 </div>
                                 <div>
-                                    <p:commandButton onclick="PF('productDialog').hide()" value="Book" actionListener="#{BookingObjectController.assign(request,productList.selectedProduct.id)}" rendered="#{UserController.isLoggedIn(request)}" style="margin-right:20Px"/>
-                                    <p:commandButton onclick="PF('productDialog').hide()"   value="Cancel" actionListener="#{BookingObjectController.cancel(request,productList.selectedProduct.id)}" rendered="#{UserController.isLoggedIn(request)}"/>
+                                    <p:commandButton onclick="PF('productDialog').hide()" value="Book" actionListener="#{BookingObjectController.assign(request,productList.selectedBooking.id)}" rendered="#{UserController.isLoggedIn(request)}" style="margin-right:20Px"/>
+                                    <p:commandButton onclick="PF('productDialog').hide()" value="Cancel" actionListener="#{BookingObjectController.cancel(request,productList.selectedBooking.id)}" rendered="#{UserController.isLoggedIn(request)}"/>
                                 </div>
 
 

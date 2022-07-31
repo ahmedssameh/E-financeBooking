@@ -1,10 +1,10 @@
-package com.example.efinancebooking.BookingObjectControllerClasess;
+package com.example.efinancebooking.BookingRequests;
 
 
 import lombok.Data;
 
 @Data
-public class addBookingObjReq {
+public class AddBookingReq {
     public String Name;
     public String Location;
 //    public int userid;

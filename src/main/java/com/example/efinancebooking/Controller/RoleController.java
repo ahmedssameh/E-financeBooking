@@ -1,9 +1,7 @@
 package com.example.efinancebooking.Controller;
 
 import com.example.efinancebooking.Model.Role;
-import com.example.efinancebooking.Model.User;
-import com.example.efinancebooking.Services.RoleServices;
-import com.example.efinancebooking.Services.UserServices;
+import com.example.efinancebooking.Services.RoleService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +13,7 @@ import java.util.List;
 @RequestMapping(path="/Role")
 public class RoleController {
     @Autowired
-    RoleServices roleServices;
+    RoleService roleServices;
 
     @PostMapping(path="/add")
     public @ResponseBody String AddRole(@Valid @RequestBody Role role){

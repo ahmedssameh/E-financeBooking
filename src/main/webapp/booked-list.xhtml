@@ -46,7 +46,7 @@
                         <p:commandButton update=":form:productDetail" oncomplete="PF('productDialog').show()"
                                          value="Rate" title="View">
                             <f:setPropertyActionListener value="#{product}"
-                                                         target="#{productList.selectedProduct}"/>
+                                                         target="#{productList.selectedBooking}"/>
                         </p:commandButton>
                     </p:column>
 
@@ -55,7 +55,7 @@
             <p:dialog header="Product Info" widgetVar="productDialog" modal="true" showEffect="fade"
                       hideEffect="fade" resizable="false">
                 <p:outputPanel id="productDetail" style="text-align:center;">
-                    <p:column rendered="#{not empty productList.selectedProduct}">
+                    <p:column rendered="#{not empty productList.selectedBooking}">
                         <div class="product">
                             <div class="product-grid-item card" style="margin-bottom: 0">
 
@@ -69,10 +69,10 @@
                                 <br/>
                                 <span>
                                     <p:outputLabel for="comment" value="Product Id: "/>
-                                    #{UserController.reviewRequest.bookingObjId=productList.selectedProduct.id}
+                                    #{UserController.reviewRequest.bookingObjId=productList.selectedBooking.id}
                                 </span>
                                 <br/><br/>
-                                <p:commandButton actionListener="#{UserController.Rate(request,UserController.reviewRequest)}" value="Submit" />
+                                <p:commandButton actionListener="#{UserController.Rate(request,UserController.reviewRequest)}" value="Submit" onclick="PF('productDialog').hide()" />
 
                             </div>
                         </div>

@@ -2,14 +2,9 @@ package com.example.efinancebooking.Model;
 
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
@@ -39,7 +34,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     @Autowired
-    private List<BookingObject> MyBookings;
+    private List<Booking> MyBookings;
 
     @NotNull
     @Size(min =8)
@@ -103,11 +98,11 @@ public class User {
         Username = username;
     }
 
-    public List<BookingObject> getMyBookings() {
+    public List<Booking> getMyBookings() {
         return MyBookings;
     }
 
-    public void setMyBookings(List<BookingObject> myBookings) {
+    public void setMyBookings(List<Booking> myBookings) {
         MyBookings = myBookings;
     }
 

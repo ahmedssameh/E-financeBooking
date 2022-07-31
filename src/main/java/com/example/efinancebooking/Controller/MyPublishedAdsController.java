@@ -1,8 +1,8 @@
 package com.example.efinancebooking.Controller;
 
 
-import com.example.efinancebooking.Model.BookingObject;
-import com.example.efinancebooking.Services.BookingObjectsService;
+import com.example.efinancebooking.Model.Booking;
+import com.example.efinancebooking.Services.BookingService;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +23,17 @@ import java.util.List;
 public class MyPublishedAdsController {
 
     @Autowired
-    private BookingObjectsService bookingObjectsService;
+    private BookingService bookingService;
 
     @GetMapping(path="/GetMyPublishedAds")
-    public List<BookingObject> getMyAds(HttpServletRequest request){
+    public List<Booking> getMyBookings(HttpServletRequest request){
 
-        return bookingObjectsService.getPublisherBookings(request);
+        return bookingService.getPublisherBookings(request);
     }
 
     @DeleteMapping(path="/delete")
     public @ResponseBody String delete(@RequestParam int bid){
-        bookingObjectsService.delete(bid);
+        bookingService.delete(bid);
         return "/Published-ads.xhtml?faces-redirect=true";
     }
 }

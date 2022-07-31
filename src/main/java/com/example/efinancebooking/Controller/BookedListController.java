@@ -1,7 +1,7 @@
 package com.example.efinancebooking.Controller;
 
-import com.example.efinancebooking.Model.BookingObject;
-import com.example.efinancebooking.Repos.BookingObjectRepo;
+import com.example.efinancebooking.Model.Booking;
+import com.example.efinancebooking.Repos.BookingRepo;
 import com.example.efinancebooking.Repos.UserRepo;
 import lombok.Data;
 import org.ocpsoft.rewrite.annotation.Join;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +21,16 @@ import java.util.List;
 @Data
 public class BookedListController {
     @Autowired
-    private BookingObjectRepo bookingObjectRepo;
+    private BookingRepo bookingRepo;
     @Autowired
     private UserRepo userRepo;
 
-    private List<BookingObject> booked= new ArrayList<>();
+    private List<Booking> booked= new ArrayList<>();
 
-    private BookingObject selectedBook;
+    private Booking selectedBook;
 
 
-    public List<BookingObject> init(HttpServletRequest request) {
+    public List<Booking> init(HttpServletRequest request) {
 
         return userRepo.findUserByName(request.getRemoteUser()).getMyBookings();
     }
@@ -39,19 +38,19 @@ public class BookedListController {
     public void setData(){
 
     }
-    public List<BookingObject> getBooked() {
+    public List<Booking> getBooked() {
         return booked;
     }
 
-    public void setBooked(List<BookingObject> booked) {
+    public void setBooked(List<Booking> booked) {
         this.booked = booked;
     }
 
-    public BookingObject getSelectedBook() {
+    public Booking getSelectedBook() {
         return selectedBook;
     }
 
-    public void setSelectedBook(BookingObject selectedBook) {
+    public void setSelectedBook(Booking selectedBook) {
         this.selectedBook = selectedBook;
     }
 }

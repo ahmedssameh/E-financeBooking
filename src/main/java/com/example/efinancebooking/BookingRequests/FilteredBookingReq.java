@@ -1,6 +1,6 @@
-package com.example.efinancebooking.BookingObjectControllerClasess;
+package com.example.efinancebooking.BookingRequests;
 
-public class getAdsFilteredReq {
+public class FilteredBookingReq {
     public double minPrice;
     public double maxPrice;
     public int minQuantity;

@@ -1,9 +1,9 @@
-package com.example.efinancebooking.BookingObjectControllerClasess;
+package com.example.efinancebooking.BookingRequests;
 
 import lombok.Data;
 
 @Data
-public class EditBookingObjReq {
+public class EditBookingReq {
 
     public int id;
     public String Description;

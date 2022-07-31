@@ -1,7 +1,6 @@
 package com.example.efinancebooking.Model;
 
 import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
@@ -12,10 +11,10 @@ public class reviewId implements Serializable {
     @ManyToOne
     private User user;
     @ManyToOne
-    private BookingObject bookingObject;
+    private Booking booking;
 
-    public BookingObject getBookingObject() {
-        return bookingObject;
+    public Booking getBooking() {
+        return booking;
     }
 
     public User getUser() {
@@ -26,13 +25,13 @@ public class reviewId implements Serializable {
         this.user = user;
     }
 
-    public void setBookingObject(BookingObject bookingObject) {
-        this.bookingObject = bookingObject;
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 
-    public reviewId(User user, BookingObject bookingObject) {
+    public reviewId(User user, Booking bookingObject) {
         this.user = user;
-        this.bookingObject = bookingObject;
+        this.booking = bookingObject;
     }
 
     public reviewId() {
@@ -44,11 +43,11 @@ public class reviewId implements Serializable {
         if (this == o) return true;
         if (!(o instanceof reviewId)) return false;
         reviewId reviewId = (reviewId) o;
-        return Objects.equals(user, reviewId.user) && Objects.equals(bookingObject, reviewId.bookingObject);
+        return Objects.equals(user, reviewId.user) && Objects.equals(booking, reviewId.booking);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, bookingObject);
+        return Objects.hash(user, booking);
     }
 }

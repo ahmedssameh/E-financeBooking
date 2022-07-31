@@ -1,7 +1,7 @@
 package com.example.efinancebooking.Controller;
 
-import com.example.efinancebooking.Model.BookingObject;
-import com.example.efinancebooking.Repos.BookingObjectRepo;
+import com.example.efinancebooking.Model.Booking;
+import com.example.efinancebooking.Repos.BookingRepo;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
@@ -23,10 +23,10 @@ import java.util.List;
 @Join(path = "/", to = "/product-list.jsf")
 public class ProductListController {
     @Autowired
-    private BookingObjectRepo bookingObjectRepo;
+    private BookingRepo bookingRepo;
 
-    private List<BookingObject> products;
-    private BookingObject selectedProduct;
+    private List<Booking> bookings;
+    private Booking selectedBooking;
 
 
 
@@ -34,27 +34,27 @@ public class ProductListController {
     @RequestAction
     @IgnorePostback
     public void loadData() {
-        products = bookingObjectRepo.findActiveBookingObject();
+        bookings = bookingRepo.findActiveBookingObject();
     }
 
-    public List<BookingObject> getProducts() {
-        return products;
+    public List<Booking> getBookings() {
+        return bookings;
     }
 
-    public BookingObject getSelectedProduct() {
-        return selectedProduct;
+    public Booking getSelectedBooking() {
+        return selectedBooking;
     }
 
-    public void setSelectedProduct(BookingObject selectedProduct) {
-        this.selectedProduct = selectedProduct;
+    public void setSelectedBooking(Booking selectedBooking) {
+        this.selectedBooking = selectedBooking;
     }
 
-    public void onRowSelect(SelectEvent<BookingObject> event) {
+    public void onRowSelect(SelectEvent<Booking> event) {
         FacesMessage msg = new FacesMessage("Product Selected", String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void onRowUnselect(UnselectEvent<BookingObject> event) {
+    public void onRowUnselect(UnselectEvent<Booking> event) {
         FacesMessage msg = new FacesMessage("Product Unselected", String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

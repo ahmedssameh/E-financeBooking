@@ -10,27 +10,27 @@
             <p:panel header="Product Details">
                 <h:panelGrid columns="1">
                     <p:outputLabel for="name" value="Name: " />
-                    <p:inputText id="name" value="#{BookingObjectController.addBookingObjReq.name}" />
+                    <p:inputText id="name" value="#{BookingObjectController.addBookingReq.name}" />
 
                     <p:outputLabel for="price" value="Price: " />
-                    <p:inputNumber id="price" value="#{BookingObjectController.addBookingObjReq.price}" />
+                    <p:inputNumber id="price" value="#{BookingObjectController.addBookingReq.price}" />
 
                     <p:outputLabel for="location" value="Location: " />
-                    <p:inputText id="location" value="#{BookingObjectController.addBookingObjReq.location}" />
+                    <p:inputText id="location" value="#{BookingObjectController.addBookingReq.location}" />
 
                     <p:outputLabel for="quantity" value="quantity: " />
-                    <p:inputNumber id="quantity" value="#{BookingObjectController.addBookingObjReq.quantity}" />
+                    <p:inputNumber id="quantity" value="#{BookingObjectController.addBookingReq.quantity}" />
 
                     <p:outputLabel for="description" value="Description: " />
-                    <p:inputText id="description" value="#{BookingObjectController.addBookingObjReq.description}" />
+                    <p:inputText id="description" value="#{BookingObjectController.addBookingReq.description}" />
 
                     <p:outputLabel for="type" value="type: " />
-                    <p:inputText id="type" value="#{BookingObjectController.addBookingObjReq.type}" />
+                    <p:inputText id="type" value="#{BookingObjectController.addBookingReq.type}" />
 
 
 <!--                 <p:inputNumber id="id" type="hidden" value="#{userRepo.findUserByName(request.remoteUser).id}" />-->
 
-                    <p:commandButton value="Save" action="#{BookingObjectController.addBookingObj(request)}" />
+                    <p:commandButton value="Save" action="#{BookingObjectController.addBooking(request)}" />
 
 
                 </h:panelGrid>

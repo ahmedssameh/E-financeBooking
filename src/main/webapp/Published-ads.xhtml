@@ -16,7 +16,7 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
             <div class="card">
-                <p:dataTable id="singleDT" var="product" value="#{MyPublishedAdsController.getMyAds(request)}"  sortOrder="descending" sortMode="multiple">
+                <p:dataTable id="singleDT" var="product" value="#{MyPublishedAdsController.getMyBookings(request)}" sortOrder="descending" sortMode="multiple">
                     <p:column sortBy="#{product.id}">
                         <f:facet name="header"># Id</f:facet>
                         <h:outputText value="#{product.id}" />
@@ -54,7 +54,7 @@
                         <p:commandButton update=":form:productEdit" oncomplete="PF('productDialog1').show()"
                                           value="Edit" styleClass="ui-button-raised" title="View">
                         <f:setPropertyActionListener value="#{product}"
-                                                     target="#{productList.selectedProduct}"/>
+                                                     target="#{productList.selectedBooking}"/>
                     </p:commandButton>
 
                     </p:column>
@@ -63,7 +63,7 @@
                         <p:commandButton update=":form:productDetail" oncomplete="PF('productDialog').show()"
                                          icon="pi pi-trash" style="background-color: darkred; border-color: darkred"  title="View">
                             <f:setPropertyActionListener value="#{product}"
-                                                         target="#{productList.selectedProduct}"/>
+                                                         target="#{productList.selectedBooking}"/>
                         </p:commandButton>
 
                     </p:column>
@@ -76,31 +76,31 @@
             <p:dialog header="Edit" widgetVar="productDialog1" modal="true" showEffect="fade"
                       hideEffect="fade" resizable="false">
                 <p:outputPanel id="productEdit" style="text-align:center;">
-                    <p:column rendered="#{not empty productList.selectedProduct}">
+                    <p:column rendered="#{not empty productList.selectedBooking}">
                         <div class="product">
                             <div class="product-grid-item card" style="margin-bottom: 0">
                                     <p:outputLabel for="price" value="Price: " />
-                                    <p:inputNumber id="price" value="#{BookingObjectController.editBookingObjReq.price}"   />
+                                    <p:inputNumber id="price" value="#{BookingObjectController.editBookingReq.price}"   />
 
                                     <br/><br/>
 
                                     <p:outputLabel for="quantity" value="quantity: " />
-                                    <p:inputNumber id="quantity" value="#{BookingObjectController.editBookingObjReq.quantity}"
+                                    <p:inputNumber id="quantity" value="#{BookingObjectController.editBookingReq.quantity}"
                                                     />
                                     <br/><br/>
 
                                     <p:outputLabel for="description" value="Description: " />
-                                    <p:inputText id="description" value="#{BookingObjectController.editBookingObjReq.description}"
+                                    <p:inputText id="description" value="#{BookingObjectController.editBookingReq.description}"
                                                />
                                     <br/><br/>
                                 <span>
                                     <h:outputLabel  value="Product Id:" />
 
-                                    #{BookingObjectController.editBookingObjReq.id=productList.selectedProduct.id}
+                                    #{BookingObjectController.editBookingReq.id=productList.selectedBooking.id}
                                 </span>
                                     <br/><br/>
 
-                                    <p:commandButton value="Save" actionListener="#{BookingObjectController.EditBookingPost(BookingObjectController.editBookingObjReq)}" />
+                                    <p:commandButton value="Save" actionListener="#{BookingObjectController.EditBookingPost(BookingObjectController.editBookingReq)}" />
 
 
                             </div>
@@ -112,7 +112,7 @@
             <p:dialog header="Are You Sure You Want to Delete This Product?" widgetVar="productDialog" modal="true" showEffect="fade"
                       hideEffect="fade" resizable="false">
                 <p:outputPanel id="productDetail" style="text-align:center;">
-                    <p:column rendered="#{not empty productList.selectedProduct}">
+                    <p:column rendered="#{not empty productList.selectedBooking}">
                         <div class="product">
                             <div class="product-grid-item card" style="margin-bottom: 0">
 
@@ -126,7 +126,7 @@
                                 <p:column>
                                     <p:commandButton styleClass="rounded-button"
                                                      icon="pi pi-check"
-                                                     actionListener="#{MyPublishedAdsController.delete(productList.selectedProduct.id)}"
+                                                     actionListener="#{MyPublishedAdsController.delete(productList.selectedBooking.id)}"
                                     />
                                 </p:column>
 
